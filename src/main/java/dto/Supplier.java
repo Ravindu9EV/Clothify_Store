@@ -1,16 +1,16 @@
-package com.clothify.dto;
+package dto;
 
 import lombok.*;
 
-@Getter
 @Setter
-@ToString
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Employee {
+@ToString
+public class Supplier {
     private String id;
     private String name;
-    private String contact;
+    private String company;
+    private String productID;
     private String email;
-    private String password;
 }

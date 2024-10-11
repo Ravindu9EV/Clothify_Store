@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DashFormController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="81.0" stroke="BLACK" strokeType="INSIDE" width="600.0">
+         <fill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.4866276681423187" green="0.1847953200340271" blue="0.8315789699554443" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.03519999980926514" green="0.03999999910593033" blue="0.036479998379945755" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </fill>
+      </Rectangle>
+      <Label layoutX="138.0" layoutY="10.0" prefHeight="70.0" prefWidth="330.0" text="Clothify Store" textFill="#d8baf9">
+         <font>
+            <Font name="System Bold" size="48.0" />
+         </font>
+      </Label>
+      <JFXButton layoutX="198.0" layoutY="168.0" onAction="#btnAdminDashboardOnAction" prefHeight="40.0" prefWidth="204.0" style="-fx-background-color: #D8BAF9;" text="Admin Dashboard">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </JFXButton>
+      <JFXButton layoutX="198.0" layoutY="262.0" onAction="#btnEmployeeDashboardOnAction" style="-fx-background-color: #D8BAF9;" text="Employee Dashboard">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </JFXButton>
+   </children>
+</AnchorPane>

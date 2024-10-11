@@ -1,4 +1,4 @@
-package com.clothify.dto;
+package dto;
 
 import lombok.*;
 

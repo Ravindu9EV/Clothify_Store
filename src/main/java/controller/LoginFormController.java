@@ -1,4 +1,4 @@
-package com.clothify.controller;
+package controller;
 
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;

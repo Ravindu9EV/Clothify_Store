@@ -1,4 +1,4 @@
-package com.clothify.dto;
+package dto;
 
 import lombok.*;
 
@@ -7,7 +7,7 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class Admin {
+public class Employee {
     private String id;
     private String name;
     private String contact;

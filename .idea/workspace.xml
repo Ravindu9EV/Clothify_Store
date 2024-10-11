@@ -4,22 +4,38 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="609bfe23-c580-4816-b13f-bdbc1b486981" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/clothify/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/clothify/Starter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/clothify/controller/LoginFormController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/clothify/dto/Admin.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/clothify/dto/Employee.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/clothify/dto/Product.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/clothify/dto/Supplier.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/view/login_form.fxml" afterDir="false" />
+    <list default="true" id="609bfe23-c580-4816-b13f-bdbc1b486981" name="Changes" comment="created login page and dto package with classes">
+      <change afterPath="$PROJECT_DIR$/src/main/java/controller/AdminDashFormController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/controller/DashFormController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/controller/EmployeeDashFormController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/controller/EmployeeFormController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/controller/InventoryFormController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/controller/OTPFromController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/controller/OrderFormController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/controller/ProductFormController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/controller/ReportFormController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/controller/ResetPasswordFormController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/controller/SupplierFormController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/view/admin_dash_form.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/view/dash_form.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/view/employee_dash_form.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/view/employee_form.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/view/inventory_from.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/view/order_form.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/view/otp_form.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/view/product_from.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/view/report_form.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/view/reset_password_form.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/view/supplier_form.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/clothify/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/clothify/Starter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Starter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/clothify/controller/LoginFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/LoginFormController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/clothify/dto/Admin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dto/Admin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/clothify/dto/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dto/Employee.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/clothify/dto/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dto/Product.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/clothify/dto/Supplier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dto/Supplier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/view/login_form.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/view/login_form.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,6 +53,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "Ravindu9EV"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Ravindu9EV/Clothify_Store.git",
+    "accountId": "1c04122e-a2e9-407f-827f-20fc99da0cd8"
+  }
+}]]></component>
   <component name="ProjectColorInfo"><![CDATA[{
   "associatedIndex": 3
 }]]></component>
@@ -51,19 +79,25 @@
     "Application.Main.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "master",
+    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
+    "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "last_directory_selection": "F:/ICET/Stand Alone Application Dev/coursework/Clothify/Clothify_Store/src/main/java",
     "onboarding.tips.debug.path": "F:/ICET/Stand Alone Application Dev/coursework/Clothify/Clothify_Store/src/main/java/edu/icet/Main.java"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.clothify.Main" />
+      <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Clothify_Store" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.clothify.*" />
+          <option name="PATTERN" value=".*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -86,6 +120,57 @@
       <option name="presentableId" value="Default" />
       <updated>1728659313459</updated>
     </task>
+    <task id="LOCAL-00001" summary="created login page and dto package with classes">
+      <option name="closed" value="true" />
+      <created>1728662835578</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1728662835578</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="User">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="*" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="user">
+                    <value>
+                      <list>
+                        <option value="*" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="created login page and dto package with classes" />
+    <option name="LAST_COMMIT_MESSAGE" value="created login page and dto package with classes" />
   </component>
 </project>

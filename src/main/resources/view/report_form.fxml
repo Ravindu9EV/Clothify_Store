@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="589.0" prefWidth="843.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ReportFormController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="81.0" layoutX="-3.0" stroke="BLACK" strokeType="INSIDE" width="845.0">
+         <fill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.4866276681423187" green="0.1847953200340271" blue="0.8315789699554443" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.03519999980926514" green="0.03999999910593033" blue="0.036479998379945755" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </fill>
+      </Rectangle>
+      <Label layoutX="285.0" layoutY="15.0" prefHeight="70.0" prefWidth="296.0" text="Report Form" textFill="#d8baf9">
+         <font>
+            <Font name="System Bold" size="48.0" />
+         </font>
+      </Label>
+      <JFXButton layoutX="325.0" layoutY="494.0" onAction="#btnDeleteSupplierOnAction" prefHeight="30.0" prefWidth="135.0" style="-fx-background-color: #D8BAF9;" text="Print" textFill="#260746">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </JFXButton>
+      <Label layoutX="34.0" layoutY="94.0" text="Report ID : " textFill="#260746">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="619.0" layoutY="129.0" text="Report ID" textFill="#260746">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="110.0" layoutY="94.0" text="R001" textFill="#260746">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <ComboBox layoutX="460.0" layoutY="163.0" prefHeight="30.0" prefWidth="98.0" promptText="Duration" style="-fx-background-color: #F2E8FD;" />
+      <ComboBox layoutX="150.0" layoutY="163.0" prefHeight="30.0" prefWidth="98.0" promptText="Category" style="-fx-background-color: #F2E8FD;" />
+      <PieChart fx:id="pieChart" layoutX="285.0" layoutY="246.0" prefHeight="221.0" prefWidth="233.0" style="-fx-background-color: F2E8FD;">
+         <opaqueInsets>
+            <Insets top="10.0" />
+         </opaqueInsets>
+         <cursor>
+            <Cursor fx:constant="CROSSHAIR" />
+         </cursor>
+      </PieChart>
+   </children>
+</AnchorPane>
