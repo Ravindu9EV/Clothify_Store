@@ -14,8 +14,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="785.0" prefWidth="908.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.OrderFormController">
+<AnchorPane prefHeight="785.0" prefWidth="908.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.order.OrderFormController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" height="81.0" layoutX="-2.0" layoutY="-6.0" stroke="BLACK" strokeType="INSIDE" width="908.0">
          <fill>
@@ -46,7 +45,7 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </JFXButton>
-      <TableView fx:id="tblOrder" layoutX="102.0" layoutY="518.0" prefHeight="163.0" prefWidth="642.0" style="-fx-background-color: #BF8CF5;">
+      <TableView fx:id="tblOrder" layoutX="102.0" layoutY="518.0" prefHeight="163.0" prefWidth="746.0" style="-fx-background-color: #BF8CF5;">
          <columns>
             <TableColumn fx:id="colOrderID" prefWidth="86.4000244140625" text="ID" />
             <TableColumn fx:id="colOrderProductID" prefWidth="102.4000244140625" text="ProductID" />
@@ -54,6 +53,7 @@
             <TableColumn fx:id="colOrderProductQuantity" prefWidth="124.79998779296875" text="Quantity" />
             <TableColumn fx:id="colOrderProductDiscount" prefWidth="107.199951171875" text="discount" />
             <TableColumn fx:id="colOrderProductTotalCost" prefWidth="102.4000244140625" text="Total Cost" />
+            <TableColumn fx:id="colOrderPaymentType" prefWidth="102.4000244140625" text="Payment Type" />
          </columns>
       </TableView>
       <JFXTextField fx:id="txtProductID" layoutX="281.0" layoutY="140.0" promptText="productID" style="-fx-background-color: #F2E8FD;" unFocusColor="#260746" />
@@ -113,5 +113,6 @@
       <ImageView fx:id="imgProductImage" fitHeight="124.0" fitWidth="158.0" layoutX="81.0" layoutY="125.0" pickOnBounds="true" preserveRatio="true" />
       <ComboBox fx:id="combProductSize" layoutX="600.0" layoutY="139.0" prefHeight="26.0" prefWidth="86.0" promptText="size" style="-fx-background-color: #F2E8FD;" />
       <ComboBox fx:id="combProductCategory" layoutX="592.0" layoutY="199.0" prefHeight="26.0" prefWidth="102.0" promptText="category" style="-fx-background-color: #F2E8FD;" />
+      <ComboBox fx:id="combPaymentType" layoutX="685.0" layoutY="480.0" prefHeight="26.0" prefWidth="120.0" promptText="Payment Type" style="-fx-background-color: #F2E8FD;" />
    </children>
 </AnchorPane>

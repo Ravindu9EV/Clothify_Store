@@ -5,37 +5,69 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="609bfe23-c580-4816-b13f-bdbc1b486981" name="Changes" comment="created login page and dto package with classes">
-      <change afterPath="$PROJECT_DIR$/src/main/java/controller/AdminDashFormController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/controller/DashFormController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/controller/EmployeeDashFormController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/controller/EmployeeFormController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/controller/InventoryFormController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/controller/OTPFromController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/controller/OrderFormController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/controller/ProductFormController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/controller/ReportFormController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/controller/ResetPasswordFormController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/controller/SupplierFormController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/view/admin_dash_form.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/view/dash_form.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/view/employee_dash_form.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/view/employee_form.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/view/inventory_from.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/view/order_form.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/view/otp_form.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/view/product_from.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/view/report_form.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/view/reset_password_form.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/view/supplier_form.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/controller/login/LoginController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/db/DBConnection.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dto/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/entity/AdminEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/entity/EmployeeEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/entity/ProductEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/entity/SupplierEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/repository/CrudRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/repository/DaoFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/repository/SuperDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/repository/custom/AdminDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/repository/custom/EmployeeDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/repository/custom/ProductDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/repository/custom/SupplierDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/repository/custom/impl/AdminDaoImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/repository/custom/impl/EmployeeDaoImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/repository/custom/impl/ProductDaoImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/repository/custom/impl/SupplierDaoImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/service/ServiceFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/service/SuperService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/service/custom/AdminService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/service/custom/EmployeeService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/service/custom/LoginService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/service/custom/ProductService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/service/custom/SupplierService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/service/custom/impl/AdminServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/service/custom/impl/EmployeeServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/service/custom/impl/LoginServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/service/custom/impl/ProductServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/service/custom/impl/SupplierServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/util/CrudUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/util/DaoType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/util/HibernateUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/util/ServiceType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/clothify/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/clothify/Starter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Starter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/clothify/controller/LoginFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/LoginFormController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/clothify/dto/Admin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dto/Admin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/clothify/dto/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dto/Employee.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/clothify/dto/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dto/Product.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/clothify/dto/Supplier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dto/Supplier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/AdminDashFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/admin/AdminDashFormController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/DashFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/DashFormController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/EmployeeDashFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/employee/EmployeeDashFormController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/EmployeeFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/employee/EmployeeFormController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/InventoryFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/inventory/InventoryFormController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/LoginFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/login/LoginFormController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/OTPFromController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/login/OTPFromController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/OrderFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/order/OrderFormController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/ProductFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/product/ProductFormController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/ReportFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/report/ReportFormController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/ResetPasswordFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/password/ResetPasswordFormController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controller/SupplierFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controller/supplier/SupplierFormController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dto/Admin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dto/Admin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dto/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dto/Employee.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/view/admin_dash_form.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/view/admin_dash_form.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/view/dash_form.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/view/dash_form.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/view/employee_dash_form.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/view/employee_dash_form.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/view/employee_form.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/view/employee_form.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/view/inventory_from.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/view/inventory_from.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/view/login_form.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/view/login_form.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/view/order_form.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/view/order_form.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/view/otp_form.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/view/otp_form.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/view/product_from.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/view/product_from.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/view/report_form.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/view/report_form.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/view/reset_password_form.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/view/reset_password_form.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/view/supplier_form.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/view/supplier_form.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,6 +78,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="FxmlFile" />
+        <option value="Enum" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -53,21 +87,21 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "Ravindu9EV"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Ravindu9EV&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/Ravindu9EV/Clothify_Store.git",
-    "accountId": "1c04122e-a2e9-407f-827f-20fc99da0cd8"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Ravindu9EV/Clothify_Store.git&quot;,
+    &quot;accountId&quot;: &quot;1c04122e-a2e9-407f-827f-20fc99da0cd8&quot;
   }
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 3
-}]]></component>
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
   <component name="ProjectId" id="2nIStWdfqPMKeECc3fb6SwQl6DN" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -76,17 +110,21 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Application.Main.executor": "Run",
+    "Application.Main.executor": "Debug",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "SONARLINT_PRECOMMIT_ANALYSIS": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "last_directory_selection": "F:/ICET/Stand Alone Application Dev/coursework/Clothify/Clothify_Store/src/main/java",
+    "last_opened_file_path": "F:/ICET/Stand Alone Application Dev/coursework/Clothify/Clothify_Store",
     "onboarding.tips.debug.path": "F:/ICET/Stand Alone Application Dev/coursework/Clothify/Clothify_Store/src/main/java/edu/icet/Main.java"
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="ExtractSuperBase.RECENT_KEYS">
+      <recent name="repository.custom" />
+    </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="" />
     </key>
@@ -172,5 +210,16 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="created login page and dto package with classes" />
     <option name="LAST_COMMIT_MESSAGE" value="created login page and dto package with classes" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/controller/login/LoginFormController.java</url>
+          <line>32</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

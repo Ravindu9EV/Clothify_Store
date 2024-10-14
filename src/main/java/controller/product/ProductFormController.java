@@ -1,33 +1,14 @@
-package controller;
+package controller.product;
 
 import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
 
-public class OrderFormController {
-
-    @FXML
-    private TableColumn<?, ?> colOrderID;
-
-    @FXML
-    private TableColumn<?, ?> colOrderProductDiscount;
-
-    @FXML
-    private TableColumn<?, ?> colOrderProductID;
-
-    @FXML
-    private TableColumn<?, ?> colOrderProductName;
-
-    @FXML
-    private TableColumn<?, ?> colOrderProductQuantity;
-
-    @FXML
-    private TableColumn<?, ?> colOrderProductTotalCost;
+public class ProductFormController {
 
     @FXML
     private TableColumn<?, ?> colProductCategory;
@@ -60,44 +41,37 @@ public class OrderFormController {
     private ImageView imgProductImage;
 
     @FXML
-    private Label lblDate;
-
-    @FXML
-    private Label lblTime;
-
-    @FXML
-    private Label lblTotal;
-
-    @FXML
-    private TableView<?> tblOrder;
-
-    @FXML
     private TableView<?> tblProducts;
 
     @FXML
-    private JFXTextField txtProductID;
+    private JFXTextField txtProductId;
+
+    @FXML
+    private JFXTextField txtProductName;
+
+    @FXML
+    private JFXTextField txtProductPrice;
 
     @FXML
     private JFXTextField txtProductQuantity;
 
     @FXML
-    private JFXTextField txtStockID;
-
-    @FXML
-    private JFXTextField txtStockUpdatedTime;
-
-    @FXML
-    void btnAddToOrderOnAction(ActionEvent event) {
+    void btnAddOnAction(ActionEvent event) {
 
     }
 
     @FXML
-    void btnRemoveFromOrderOnAction(ActionEvent event) {
+    void btnRemoveOnAction(ActionEvent event) {
 
     }
 
     @FXML
-    void btnPlaceOrderOnAction(ActionEvent event) {
+    void btnSearchOnAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    void btnUpdateOnAction(ActionEvent event) {
 
     }
 

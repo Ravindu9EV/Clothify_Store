@@ -7,7 +7,7 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class Employee {
+public class Employee implements User {
     private String id;
     private String name;
     private String contact;

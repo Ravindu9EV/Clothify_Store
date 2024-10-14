@@ -1,5 +1,6 @@
-package dto;
+package entity;
 
+import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
@@ -7,8 +8,12 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class Admin implements User {
-    private String id;
+@Entity
+
+public class EmployeeEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
     private String name;
     private String contact;
     private String email;

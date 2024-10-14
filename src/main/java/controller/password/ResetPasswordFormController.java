@@ -1,4 +1,4 @@
-package controller;
+package controller.password;
 
 import com.jfoenix.controls.JFXTextField;
 import javafx.event.ActionEvent;

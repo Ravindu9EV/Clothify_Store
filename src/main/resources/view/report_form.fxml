@@ -2,10 +2,10 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.Cursor?>
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.Glow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.paint.LinearGradient?>
@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane prefHeight="589.0" prefWidth="843.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ReportFormController">
+<AnchorPane prefHeight="589.0" prefWidth="843.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.report.ReportFormController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" height="81.0" layoutX="-3.0" stroke="BLACK" strokeType="INSIDE" width="845.0">
          <fill>
@@ -65,9 +65,9 @@
          <opaqueInsets>
             <Insets top="10.0" />
          </opaqueInsets>
-         <cursor>
-            <Cursor fx:constant="CROSSHAIR" />
-         </cursor>
+         <effect>
+            <Glow />
+         </effect>
       </PieChart>
    </children>
 </AnchorPane>
