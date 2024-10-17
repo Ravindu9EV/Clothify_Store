@@ -1,13 +1,14 @@
 package service.custom;
 
-import dto.Admin;
-import dto.Employee;
 import dto.User;
 import service.SuperService;
-import util.DaoType;
+
+import util.ServiceType;
 
 public interface LoginService extends SuperService {
-    DaoType checkAdminLogin(String email, String password);
-    DaoType checkEmployeeLogin(String email, String password);
+
+    ServiceType checkUserLogin(String email, String password);
     User getUser();
+    ServiceType getUserType();
+    User findByEmail(String email);
 }

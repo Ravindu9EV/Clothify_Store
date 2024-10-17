@@ -20,7 +20,7 @@ public class ServiceFactory {
             case ADMIN:return (T) new AdminServiceImpl();
             case EMPLOYEE: return (T) new EmployeeServiceImpl();
             case SUPPLIER: return (T) new SupplierServiceImpl();
-            case PRODUCT: return (T) new ProductServiceImpl();
+            case PRODUCT: return (T) ProductServiceImpl.getInstance();
 
         }
         return null;

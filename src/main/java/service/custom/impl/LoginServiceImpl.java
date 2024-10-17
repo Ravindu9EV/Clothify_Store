@@ -7,6 +7,7 @@ import dto.User;
 import service.custom.LoginService;
 import util.CrudUtil;
 import util.DaoType;
+import util.ServiceType;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,42 +17,41 @@ public class LoginServiceImpl implements LoginService {
     private LoginServiceImpl(){}
 
     private User user;
-    private DaoType userType;
+    private ServiceType userType;
     public static LoginServiceImpl getInstance(){
         return instance==null ? instance=new LoginServiceImpl() : instance;
     }
+
+
     @Override
-    public DaoType checkAdminLogin(String email, String password) {
+    public ServiceType checkUserLogin(String email, String password) {
 
-        String SQL="SELECT * FROM Admin WHERE email='"+email+"' and password='"+password+"'";
-
-
-        try {
-            ResultSet rst=CrudUtil.execute(SQL);
-            while (rst.next()){
-                user=  new Admin(rst.getString(1),rst.getString(2),rst.getString(3),rst.getString(4),rst.getString(5));
-                return  userType;
-            }
-        }catch (SQLException e) {
+        if(getUserType()==ServiceType.ADMIN){
+            String SQL="SELECT * FROM Admin WHERE email='"+email+"' and password='"+password+"'";
+            try {
+                ResultSet rst=CrudUtil.execute(SQL);
+                while (rst.next()){
+                    user=  new Admin(rst.getString(1),rst.getString(2),rst.getString(3),rst.getString(4),rst.getString(5));
+                    return  userType;
+                }
+            }catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-            return null;
-        }
 
-    @Override
-    public DaoType checkEmployeeLogin(String email, String password) {
-        String SQL="SELECT * FROM Employee WHERE email='"+email+"' and password='"+password+"'";
-
-
-        try {
-            ResultSet rst=CrudUtil.execute(SQL);
-            while (rst.next()){
-                user=  new Employee(rst.getString(1),rst.getString(2),rst.getString(3),rst.getString(4),rst.getString(5));
-                return userType;
+        }else if(getUserType()==ServiceType.EMPLOYEE){
+            String SQL="SELECT * FROM Employee WHERE email='"+email+"' and password='"+password+"'";
+            try {
+                ResultSet rst=CrudUtil.execute(SQL);
+                while (rst.next()){
+                    user=  new Admin(rst.getString(1),rst.getString(2),rst.getString(3),rst.getString(4),rst.getString(5));
+                    return  userType;
+                }
+            }catch (SQLException e) {
+                throw new RuntimeException(e);
             }
-        }catch (SQLException e) {
-            throw new RuntimeException(e);
+
         }
+
 
         return null;
     }
@@ -61,15 +61,42 @@ public class LoginServiceImpl implements LoginService {
         return user;
     }
 
-    public void setUserType(DaoType type){
+    public void setUserType(ServiceType type){
         switch (type){
-            case ADMIN: userType=DaoType.ADMIN ;
-            case EMPLOYEE: userType=DaoType.EMPLOYEE;
+            case ADMIN:
+                userType=ServiceType.ADMIN;
+                break ;
+            case EMPLOYEE:
+                userType=ServiceType.EMPLOYEE;
+                break;
         }
 
     }
-    public DaoType getUserType(){
+    public ServiceType getUserType(){
         return userType;
+    }
+
+    public User findByEmail(String email) {
+        User user=null;
+        try{
+            ResultSet rst= CrudUtil.execute("Select * from Admin Where email='"+email+"'");
+
+                while(rst.next()){
+                    user= new Admin(rst.getString(1),rst.getString(2),rst.getString(3),rst.getString(4),rst.getString(5));
+                }
+                if(user!=null){
+                    rst=CrudUtil.execute("Select * FROM Employee WHERE email='"+email+"'");
+                    while(rst.next()){
+                        user=new Employee(rst.getString(1),rst.getString(2),rst.getString(3),rst.getString(4),rst.getString(5));
+
+                    }
+                }
+                return user;
+
+        }catch (SQLException e){
+            throw new RuntimeException( e);
+        }
+
     }
 }
 
