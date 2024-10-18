@@ -17,7 +17,7 @@ public class EmployeeDashFormController {
     void btnProductsFormOnAction(ActionEvent event) {
 
         try {
-            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../../view/product_from.fxml"))));
+            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../../view/product_form.fxml"))));
             stage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);

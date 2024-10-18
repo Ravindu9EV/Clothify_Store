@@ -10,12 +10,13 @@ import lombok.*;
 @NoArgsConstructor
 @Entity
 
-public class EmployeeEntity {
+public class EmployeeEntity implements SuperEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String name;
     private String contact;
+    private String company;
     private String email;
     private String password;
 }

@@ -13,7 +13,7 @@ public class Product {
     private String size;
     private double price;
     private Integer quantity;
-    private String categoryID;
+    private String category;
     private String image;
 
 

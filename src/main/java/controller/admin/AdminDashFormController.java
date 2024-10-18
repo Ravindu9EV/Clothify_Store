@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class AdminDashFormController {
     Stage stage=new Stage();
@@ -25,7 +26,7 @@ public class AdminDashFormController {
     void btnProductsFormOnAction(ActionEvent event) {
 
         try {
-            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../../view/product_from.fxml"))));
+            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../../view/product_form.fxml"))));
             stage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -47,7 +48,7 @@ public class AdminDashFormController {
     void btnStocksFormOnAction(ActionEvent event) {
 
         try {
-            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../../view/inventory_from.fxml"))));
+            stage.setScene(new Scene(FXMLLoader.load(Objects.requireNonNull(getClass().getResource("../../view/order_form.fxml")))));
             stage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);

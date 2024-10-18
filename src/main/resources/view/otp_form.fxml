@@ -10,8 +10,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.login.OTPFromController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #F2E8FD;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.login.OTPFromController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" height="81.0" stroke="BLACK" strokeType="INSIDE" width="600.0">
          <fill>
@@ -36,13 +35,13 @@
             <Font name="System Bold" size="48.0" />
          </font>
       </Label>
-      <JFXTextField fx:id="txtCode1" layoutX="68.0" layoutY="140.0" prefHeight="46.0" prefWidth="55.0" style="-fx-background-color: #F2E8FD;" unFocusColor="#260746" />
-      <JFXTextField fx:id="txtCode2" layoutX="154.0" layoutY="140.0" prefHeight="46.0" prefWidth="55.0" style="-fx-background-color: #F2E8FD;" unFocusColor="#260746" />
-      <JFXTextField fx:id="txtCode3" layoutX="237.0" layoutY="140.0" prefHeight="46.0" prefWidth="55.0" style="-fx-background-color: #F2E8FD;" unFocusColor="#260746" />
-      <JFXTextField fx:id="txtCode4" layoutX="323.0" layoutY="140.0" prefHeight="46.0" prefWidth="55.0" style="-fx-background-color: #F2E8FD;" unFocusColor="#260746" />
-      <JFXTextField fx:id="txtCode5" layoutX="403.0" layoutY="140.0" prefHeight="46.0" prefWidth="55.0" style="-fx-background-color: #F2E8FD;" unFocusColor="#260746" />
-      <JFXTextField fx:id="txtCode6" layoutX="483.0" layoutY="140.0" prefHeight="46.0" prefWidth="55.0" style="-fx-background-color: #F2E8FD;" unFocusColor="#260746" />
-      <JFXButton layoutX="190.0" layoutY="274.0" onAction="#btnConfirmOnAction" prefHeight="40.0" prefWidth="204.0" style="-fx-background-color: #D8BAF9;" text="Confirm" textFill="#260746">
+      <JFXTextField fx:id="txtCode1" layoutX="68.0" layoutY="140.0" prefHeight="46.0" prefWidth="55.0" style="-fx-background-color: #e0c9fa;" unFocusColor="#260746" />
+      <JFXTextField fx:id="txtCode2" layoutX="154.0" layoutY="140.0" prefHeight="46.0" prefWidth="55.0" style="-fx-background-color: #e0c9fa;" unFocusColor="#260746" />
+      <JFXTextField fx:id="txtCode3" layoutX="237.0" layoutY="140.0" prefHeight="46.0" prefWidth="55.0" style="-fx-background-color: #e0c9fa;" unFocusColor="#260746" />
+      <JFXTextField fx:id="txtCode4" layoutX="323.0" layoutY="140.0" prefHeight="46.0" prefWidth="55.0" style="-fx-background-color: #e0c9fa;" unFocusColor="#260746" />
+      <JFXTextField fx:id="txtCode5" layoutX="403.0" layoutY="140.0" prefHeight="46.0" prefWidth="55.0" style="-fx-background-color: #e0c9fa;" unFocusColor="#260746" />
+      <JFXTextField fx:id="txtCode6" layoutX="483.0" layoutY="140.0" prefHeight="46.0" prefWidth="55.0" style="-fx-background-color: #e0c9fa;" unFocusColor="#260746" />
+      <JFXButton layoutX="190.0" layoutY="274.0" onAction="#btnConfirmOnAction" prefHeight="40.0" prefWidth="204.0" style="-fx-background-color: #260746;" text="Confirm" textFill="#f2e8fd">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>

@@ -12,11 +12,12 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 @Entity
-public class CustomerEntity implements SuperEntity{
+public class OrderDetailEntity implements SuperEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private String name;
-    private String email;
-    private String contact;
+    private String orderID;
+    private String productID;
+    private Integer quantity;
+    private double discount;
 }

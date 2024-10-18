@@ -12,7 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity
 
-public class AdminEntity {
+public class AdminEntity implements SuperEntity {
 
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)

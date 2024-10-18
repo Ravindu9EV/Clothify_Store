@@ -4,10 +4,7 @@ import dto.Admin;
 import dto.Employee;
 import dto.Product;
 import dto.Supplier;
-import repository.custom.impl.AdminDaoImpl;
-import repository.custom.impl.EmployeeDaoImpl;
-import repository.custom.impl.ProductDaoImpl;
-import repository.custom.impl.SupplierDaoImpl;
+import repository.custom.impl.*;
 import util.DaoType;
 
 public class DaoFactory {
@@ -26,6 +23,8 @@ public class DaoFactory {
             case EMPLOYEE: return (T) new EmployeeDaoImpl();
             case SUPPLIER: return (T) new SupplierDaoImpl();
             case PRODUCT: return (T) new ProductDaoImpl();
+            case ORDER: return (T) new OrderDaoImpl();
+            case ORDERDETAIL:return (T) new OrderDetailDaoImpl();
         }
         return null;
     }

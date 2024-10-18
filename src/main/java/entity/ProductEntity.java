@@ -10,7 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "Product")
-public class ProductEntity {
+public class ProductEntity implements SuperEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -18,6 +18,6 @@ public class ProductEntity {
     private String size;
     private double price;
     private Integer quantity;
-    private String categoryID;
+    private String category;
     private String image;
 }

@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
@@ -12,7 +13,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.login.LoginFormController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #F2E8FD;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.login.LoginFormController">
    <children>
       <Pane layoutY="-2.0" prefHeight="92.0" prefWidth="600.0" />
       <JFXTextField fx:id="txtEmail" focusColor="#a149bf" layoutX="215.0" layoutY="174.0" promptText="email" unFocusColor="#8135d7">
@@ -49,10 +50,13 @@
             <Font name="System Bold" size="48.0" />
          </font>
       </Label>
-      <Label fx:id="lblForgotPwd" layoutX="212.0" layoutY="256.0" onMouseClicked="#lblForgotPwdOnClick" text="Forgot password" textFill="#7d30d4">
+      <Label fx:id="lblForgotPwd" layoutX="212.0" layoutY="256.0" onMouseClicked="#lblForgotPwdOnClick" text="Forgot password" textFill="#7d30d4" textOverrun="LEADING_WORD_ELLIPSIS" wrapText="true">
          <font>
             <Font name="System Italic" size="12.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Label>
    </children>
 </AnchorPane>

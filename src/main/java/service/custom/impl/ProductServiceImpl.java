@@ -3,7 +3,9 @@ package service.custom.impl;
 import dto.Order;
 import dto.OrderDetail;
 import dto.Product;
+import entity.OrderDetailEntity;
 import entity.ProductEntity;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Cell;
 import repository.DaoFactory;
@@ -19,58 +21,48 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductServiceImpl implements ProductService {
-    private static ProductServiceImpl instance;
 
-    private ProductServiceImpl(){}
-
-    public static ProductServiceImpl getInstance(){
-        return instance==null ? instance=new ProductServiceImpl() :instance;
-    }
-
+    ProductDao productDao=DaoFactory.getInstance().getDaoType(DaoType.PRODUCT);
     @Override
     public boolean addProduct(Product product) {
-        ProductDao productDao=DaoFactory.getInstance().getDaoType(DaoType.PRODUCT);
 
-        return productDao.save(new ModelMapper().map(product, ProductEntity.class));
+
+        try {
+            return productDao.save(new ModelMapper().map(product, ProductEntity.class));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    public boolean searchProduct(String id) {
-        return false;
+    public Product searchProduct(String id) {
+        return new ModelMapper().map(productDao.search(id),Product.class);
     }
 
     @Override
     public boolean updateProduct(Product product) {
-        return false;
+
+        return productDao.update(new ModelMapper().map(product,ProductEntity.class));
     }
 
     @Override
-    public void deleteProduct(String id) {
-
+    public boolean deleteProduct(String id) {
+        return productDao.delete(id);
     }
 
     @Override
-    public List<Product> getAllIProducts() {
-        String SQL="Select * FROM Product";
-        List<Product> products=new ArrayList<>();
-        ResultSet rst= CrudUtil.execute(SQL);
-
+    public List<Product> getAllProducts()  {
+        List<Product> products= new ArrayList<>();
         try {
-            while(rst.next()){
-                    products.add(new ModelMapper().map(new ProductEntity(
-                            rst.getInt(1),
-                            rst.getString(2),
-                            rst.getString(3),
-                            rst.getDouble(4),
-                            rst.getInt(5),
-                            rst.getString(6),
-                            rst.getString(7)
-                    ), Product.class));
-            }
-            return products;
+            productDao.findAll().forEach(productEntity -> {
+                products.add(new ModelMapper().map(productEntity,Product.class));
+            });
         } catch (SQLException e) {
-                throw new RuntimeException(e);
+            throw new RuntimeException(e);
         }
+        return products;
+
+
 
     }
 
@@ -87,8 +79,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public boolean updateStock(OrderDetail orderDetail) {
-        String SQL="UPDATE Product SET quantity=quantity-? WHERE id=?";
-        return CrudUtil.execute(SQL,orderDetail.getQuantity(),orderDetail.getProductID());
+       ProductDao type= DaoFactory.getInstance().getDaoType(DaoType.PRODUCT);
+       return type.updateStock(new ModelMapper().map(orderDetail, OrderDetailEntity.class));
+
     }
 
 

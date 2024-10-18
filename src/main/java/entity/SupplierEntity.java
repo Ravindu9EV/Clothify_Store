@@ -10,7 +10,7 @@ import lombok.*;
 @ToString
 @Entity
 @Table(name = "Supplier")
-public class SupplierEntity {
+public class SupplierEntity implements SuperEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;

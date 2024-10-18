@@ -1,26 +1,40 @@
 package controller.order;
 
 import com.jfoenix.controls.JFXTextField;
-import dto.Cart;
-import dto.Customer;
-import dto.Order;
-import dto.OrderDetail;
+import dto.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
+import lombok.SneakyThrows;
+import repository.DaoFactory;
+import repository.custom.ProductDao;
+import service.ServiceFactory;
+import service.SuperService;
+import service.custom.CustomerService;
+import service.custom.OrderService;
+import service.custom.ProductService;
 import service.custom.impl.CustomerServiceImpl;
 import service.custom.impl.ProductServiceImpl;
-
+import util.DaoType;
+import util.ServiceType;
+import org.modelmapper.ModelMapper;
+import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
-public class OrderFormController {
+public class OrderFormController  implements Initializable {
 
     public TableColumn colOrderPaymentType;
     public ComboBox combPaymentType;
@@ -32,7 +46,7 @@ public class OrderFormController {
     public Label lblOrderID;
     public JFXTextField txtProductDiscount;
     public JFXTextField txtProductPrice;
-    public ComboBox combProductID;
+    public ComboBox<String> combProductID;
     public JFXTextField txtProductStock;
     public TableColumn colOrderProductPrice;
     public TableView<Customer> tblCustomers;
@@ -77,10 +91,10 @@ public class OrderFormController {
     private TableColumn<?, ?> colProductSize;
 
     @FXML
-    private ComboBox<?> combProductCategory;
+    private ComboBox<String> combProductCategory;
 
     @FXML
-    private ComboBox<?> combProductSize;
+    private ComboBox<String> combProductSize;
 
     @FXML
     private ImageView imgProductImage;
@@ -113,6 +127,7 @@ public class OrderFormController {
     private JFXTextField txtStockUpdatedTime;
 
     private ObservableList<Cart> cart= FXCollections.observableArrayList();
+    private OrderService orderService=ServiceFactory.getInstance().getServiceType(ServiceType.ORDER);
     @FXML
     void btnAddToOrderOnAction(ActionEvent event) {
 
@@ -123,20 +138,8 @@ public class OrderFormController {
         Double productDiscount=Double.parseDouble(txtProductDiscount.getText());
         Double totalPrice=(productPrice-productDiscount)*productQuantity;
 
-        //------------Cart table---------
-
-        colOrderProductID.setCellValueFactory(new PropertyValueFactory<>(productID));
-        colOrderProductPrice.setCellValueFactory(new PropertyValueFactory<>(productPrice.toString()));
-        colOrderProductQuantity.setCellValueFactory(new PropertyValueFactory<>(productQuantity.toString()));
-        colOrderProductDiscount.setCellValueFactory(new PropertyValueFactory<>(productDiscount.toString()));
-        colOrderProductTotalCost.setCellValueFactory(new PropertyValueFactory<>(totalPrice.toString()));
 
         //-----------Customer Table------------
-
-        colProductID.setCellValueFactory(new PropertyValueFactory<>("id"));
-        colCustomerName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        colCustomerEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
-        colCustomerContact.setCellValueFactory(new PropertyValueFactory<>("contact"));
 
 
         if(productQuantity<=Integer.parseInt(txtProductStock.getText())){
@@ -150,12 +153,16 @@ public class OrderFormController {
 
     }
 
-    private void loadProductIDs(){
+    private void loadProductIDs() throws SQLException {
         ObservableList<String> productIDs= FXCollections.observableArrayList();
-                ProductServiceImpl.getInstance().getAllIProducts().forEach(product -> {
-                    productIDs.add(product.getId());
-                }
-        );combProductID.setItems(productIDs);
+        ProductDao productDao= DaoFactory.getInstance().getDaoType(DaoType.PRODUCT);
+                productDao.findAll().forEach(productEntity -> {
+                    String pID=new ModelMapper().map(productEntity,Product.class).getId();
+                    productIDs.add(pID);
+                    System.out.println(pID);
+                });
+
+                combProductID.setItems(productIDs);
     }
 
     private void calcTotal() {
@@ -177,9 +184,22 @@ public class OrderFormController {
         orderDetails.add(new OrderDetail(lblOrderID.getText(),txtProductID.getText(),Integer.parseInt(txtProductQuantity.getText()),Double.parseDouble(txtProductDiscount.getText())));
 
         Order order=new Order(txtStockID.getText(),lblUserID.getText(),txtCustomerID.getText(), LocalDate.parse(lblDate.getText()),combPaymentType.getValue().toString(),orderDetails);
+
+        OrderService serviceType=ServiceFactory.getInstance().getServiceType(ServiceType.ORDER);
+
         try {
-            if(new OrderController().placeOrder(order,new Customer(txtCustomerID.getText(),txtCustomerName.getText(),txtCustomerEmail.getText(),txtCustomerContact.getText()))){
-                new Alert(Alert.AlertType.INFORMATION,"Placed Order!").show();
+            if(serviceType.placeOrder(order)){
+                CustomerService service=ServiceFactory.getInstance().getServiceType(ServiceType.CUSTOMER);
+                if(service.addCustomer(new Customer(txtCustomerID.getText(),txtCustomerName.getText(),txtCustomerEmail.getText(),txtCustomerContact.getText()))){
+                    new Alert(Alert.AlertType.INFORMATION,"Placed Order!").show();
+                    Stage stage=new Stage();
+                    try {
+                        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../../view/customer_form.fxml"))));
+                        stage.show();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
 
             }else {
                 new Alert(Alert.AlertType.ERROR,"Order not Placed!!!").show();
@@ -197,21 +217,125 @@ public class OrderFormController {
     }
     @FXML
     void btnSearchCustomerOnAction(ActionEvent event) {
-        Customer customer=CustomerServiceImpl.getInstance().searchCustomerByID(txtCustomerID.getText());
+        CustomerService service=ServiceFactory.getInstance().getServiceType(ServiceType.CUSTOMER);
+        Customer customer=service.searchCustomerByID(txtCustomerID.getText());
+        if(txtCustomerID.getText().equals("")){
+          customer=service.searchCustomerByEmail(txtCustomerEmail.getText());
+        }
+
         if(customer!=null){
             txtCustomerEmail.setText(customer.getEmail());
-            txtCustomerContact.setText(customer.getCotact());
+            txtCustomerContact.setText(customer.getCotnact());
             txtCustomerName.setText(customer.getName());
         }
     }
 
     @FXML
-    void btnUpdateCustomerOnAction(ActionEvent event) {
-
+    void btnUpdateCustomerOnAction(ActionEvent event) throws SQLException {
+        setProductIDs();
     }
 
     @FXML
     void btnDeleteCustomerOnAction(ActionEvent event) {
 
+    }
+
+    @SneakyThrows
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        setProductIDs();
+        setOrderTableCols();
+        //------------Load Cart table---------
+        ProductService productService=ServiceFactory.getInstance().getServiceType(ServiceType.PRODUCT);
+        productService.getAllProducts().forEach(product -> {
+//            System.out.println(product);
+        });
+        //-------------Load Product Categories------------
+        setProductCategory();
+        setProductSize();
+
+        setCustomerTableCols();
+    }
+
+    private void setProductIDs() throws SQLException {
+        ObservableList<String> productIDs=FXCollections.observableArrayList();
+        ProductService productService=ServiceFactory.getInstance().getServiceType(ServiceType.PRODUCT);
+        productService.getAllProducts().forEach(product -> {
+            System.out.println(product);
+        });
+    }
+
+    private void setProductSize() {
+        ObservableList<String> size=FXCollections.observableArrayList();
+
+        size.add("S");
+        size.add("M");
+        size.add("L");
+        size.add("XL");
+
+        combProductSize.setItems(size);
+    }
+
+    private void setProductCategory() {
+        ObservableList<String> category=FXCollections.observableArrayList();
+        category.add("Ladies");
+        category.add("Gents");
+        category.add("Kids");
+        combProductCategory.setItems(category);
+    }
+
+    private void addValueToText(Product product) {
+        txtProductStock.setText(product.getQuantity().toString());
+        txtProductPrice.setText(product.getPrice()+"");
+
+    }
+
+    private void searchProduct(String id) {
+        ProductService productService=ServiceFactory.getInstance().getServiceType(ServiceType.PRODUCT);
+        System.out.println(productService.searchProduct(id));
+        addValueToText(productService.searchProduct(id));
+    }
+    //------------Set Cart table Columns---------
+    private void setOrderTableCols(){
+
+
+
+//        colOrderProductID.setCellValueFactory(new PropertyValueFactory<>(productID));
+//        colOrderProductPrice.setCellValueFactory(new PropertyValueFactory<>(productPrice.toString()));
+//        colOrderProductQuantity.setCellValueFactory(new PropertyValueFactory<>(productQuantity.toString()));
+//        colOrderProductDiscount.setCellValueFactory(new PropertyValueFactory<>(productDiscount.toString()));
+//        colOrderProductTotalCost.setCellValueFactory(new PropertyValueFactory<>(totalPrice.toString()));
+
+
+        colOrderProductID.setCellValueFactory(new PropertyValueFactory<>("productID"));
+        colOrderProductPrice.setCellValueFactory(new PropertyValueFactory<>("productPrice"));
+        colOrderProductQuantity.setCellValueFactory(new PropertyValueFactory<>("productQuantity"));
+        colOrderProductDiscount.setCellValueFactory(new PropertyValueFactory<>("productDiscount"));
+        colOrderProductTotalCost.setCellValueFactory(new PropertyValueFactory<>("productTotalCost"));
+    }
+
+    //---------------Set Customer Table Columns--------------------
+    private void setCustomerTableCols(){
+        colProductID.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colCustomerName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colCustomerEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+        colCustomerContact.setCellValueFactory(new PropertyValueFactory<>("contact"));
+
+
+    }
+
+    public void loadOrderTable() throws SQLException {
+        ProductService productService=ServiceFactory.getInstance().getServiceType(ServiceType.PRODUCT);
+        orderService.getAllOrders().forEach(order ->{
+            order.getOrderDetails().forEach(orderDetail -> {
+
+                Product product=productService.searchProduct(orderDetail.getProductID());
+                double unitPrice= product.getPrice();
+                int quantity= product.getQuantity();
+                double discount=orderDetail.getDiscount();
+                cart.add (new Cart(orderDetail.getProductID(),unitPrice,quantity,discount,((unitPrice-discount)*quantity)));
+            });
+        } );
+        tblOrder.setItems(cart);
     }
 }

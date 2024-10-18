@@ -87,7 +87,7 @@ public class LoginServiceImpl implements LoginService {
                 if(user!=null){
                     rst=CrudUtil.execute("Select * FROM Employee WHERE email='"+email+"'");
                     while(rst.next()){
-                        user=new Employee(rst.getString(1),rst.getString(2),rst.getString(3),rst.getString(4),rst.getString(5));
+                        user=new Employee(rst.getString(1),rst.getString(2),rst.getString(3),rst.getString(4),rst.getString(5),rst.getString(6));
 
                     }
                 }

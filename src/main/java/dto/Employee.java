@@ -11,6 +11,7 @@ public class Employee implements User {
     private String id;
     private String name;
     private String contact;
+    private String company;
     private String email;
     private String password;
 }
