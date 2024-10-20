@@ -12,7 +12,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="631.0" prefWidth="846.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.supplier.SupplierFormController">
+<AnchorPane prefHeight="631.0" prefWidth="846.0" style="-fx-background-color: #F2E8FD;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.supplier.SupplierFormController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" height="81.0" stroke="BLACK" strokeType="INSIDE" width="845.0">
          <fill>
@@ -96,5 +96,15 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
+      <JFXButton layoutX="37.0" layoutY="103.0" onAction="#btnProductFormOnAction" prefHeight="30.0" prefWidth="135.0" style="-fx-background-color: #260746;" text="Product Form" textFill="#d8baf9">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </JFXButton>
+      <JFXButton layoutX="652.0" layoutY="145.0" onAction="#btnGenerateIDOnAction" prefHeight="30.0" prefWidth="61.0" style="-jfx-button-type: #260746;" text="Genreate ID" textFill="#d8baf9">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </JFXButton>
    </children>
 </AnchorPane>

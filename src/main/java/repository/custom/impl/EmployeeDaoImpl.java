@@ -41,7 +41,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
         try {
             ResultSet rst= CrudUtil.execute(SQL);
             while (rst.next()){
-                employeeEntities.add(new EmployeeEntity(rst.getInt(1),rst.getString(2),rst.getString(3),rst.getString(4),rst.getString(5),rst.getString(6)));
+                employeeEntities.add(new EmployeeEntity(rst.getString(1),rst.getString(2),rst.getString(3),rst.getString(4),rst.getString(5),rst.getString(6)));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -55,7 +55,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
         try {
             ResultSet rst=CrudUtil.execute(SQL);
             while (rst.next()){
-                return new EmployeeEntity(rst.getInt(1),rst.getString(2),rst.getString(3),rst.getString(4),rst.getString(5),rst.getString(6));
+                return new EmployeeEntity(rst.getString(1),rst.getString(2),rst.getString(3),rst.getString(4),rst.getString(5),rst.getString(6));
 
             }
            } catch (SQLException e) {

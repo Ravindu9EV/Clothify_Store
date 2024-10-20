@@ -35,16 +35,17 @@ public class CustomerDaoImpl implements CustomerDao {
     @Override
     public List<CustomerEntity> findAll() {
         String SQL="SELECT * FROM Customer";
-        List<CustomerEntity>  adminEntities=new ArrayList<>();
+        List<CustomerEntity>  customerEntities=new ArrayList<>();
         try {
             ResultSet rst= CrudUtil.execute(SQL);
             while (rst.next()){
-                adminEntities.add(new CustomerEntity(rst.getInt(1),rst.getString(2),rst.getString(3),rst.getString(4)));
+                customerEntities.add(new CustomerEntity(rst.getString(1),rst.getString(2),rst.getString(3),rst.getString(4)));
             }
+            System.out.println(customerEntities);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return adminEntities;
+        return customerEntities;
     }
 
     @Override
@@ -53,7 +54,7 @@ public class CustomerDaoImpl implements CustomerDao {
         try {
             ResultSet rst=CrudUtil.execute(SQL);
             while ((rst.next())){
-                return new CustomerEntity(rst.getInt(1),rst.getString(2),rst.getString(3),rst.getString(4));
+                return new CustomerEntity(rst.getString(1),rst.getString(2),rst.getString(3),rst.getString(4));
 
             }
           } catch (SQLException e) {

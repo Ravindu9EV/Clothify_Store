@@ -18,8 +18,7 @@ import java.util.List;
 @Entity
 public class OrderEntity implements SuperEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private String id;
     private String userID;
     private String customerID;
     private LocalDate orderDate;

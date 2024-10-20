@@ -12,7 +12,7 @@ public interface ProductService extends SuperService {
     Product searchProduct(String id);
     boolean updateProduct(Product product);
     boolean deleteProduct(String id);
-    List<Product> getAllProducts() throws SQLException;
+    List<Product> getAllProducts();
     boolean updateStock(List<OrderDetail> orderDetails);
     boolean updateStock(OrderDetail orderDetail);
 }

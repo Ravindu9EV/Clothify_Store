@@ -12,8 +12,7 @@ import lombok.*;
 @Table(name = "Supplier")
 public class SupplierEntity implements SuperEntity{
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private String id;
     private String name;
     private String company;
     private String productID;

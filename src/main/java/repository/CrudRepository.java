@@ -10,5 +10,6 @@ public interface CrudRepository <T> extends SuperDao{
     boolean update(T entity);
     List<T> findAll() throws SQLException;
     SuperEntity search(String id);
+
     boolean delete(String id);
     }

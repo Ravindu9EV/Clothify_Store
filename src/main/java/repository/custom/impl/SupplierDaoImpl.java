@@ -1,6 +1,6 @@
 package repository.custom.impl;
 
-import entity.EmployeeEntity;
+
 import entity.SuperEntity;
 import entity.SupplierEntity;
 import repository.custom.SupplierDao;
@@ -28,7 +28,7 @@ public class SupplierDaoImpl implements SupplierDao {
 
         String SQL="UPDATE Supplier SET name=?,  company=?, productID=?, email=? WHERE id='"+entity.getId()+"'";
         try {
-            return CrudUtil.execute(SQL,entity.getName(),entity.getCompany(),entity.getEmail());
+            return CrudUtil.execute(SQL,entity.getName(),entity.getCompany(),entity.getProductID(),entity.getEmail());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -41,7 +41,7 @@ public class SupplierDaoImpl implements SupplierDao {
         try {
             ResultSet rst= CrudUtil.execute(SQL);
             while (rst.next()){
-                supplierEntities.add(new SupplierEntity(rst.getInt(1),rst.getString(2),rst.getString(3),rst.getString(4),rst.getString(5)));
+                supplierEntities.add(new SupplierEntity(rst.getString(1),rst.getString(2),rst.getString(3),rst.getString(4),rst.getString(5)));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -55,7 +55,7 @@ public class SupplierDaoImpl implements SupplierDao {
         try {
             ResultSet rst=CrudUtil.execute(SQL);
             while ((rst.next())){
-                return new SupplierEntity(rst.getInt(1),rst.getString(2),rst.getString(3),rst.getString(4),rst.getString(5));
+                return new SupplierEntity(rst.getString(1),rst.getString(2),rst.getString(3),rst.getString(4),rst.getString(5));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

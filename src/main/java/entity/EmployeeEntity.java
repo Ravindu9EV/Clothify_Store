@@ -12,8 +12,7 @@ import lombok.*;
 
 public class EmployeeEntity implements SuperEntity{
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private String id;
     private String name;
     private String contact;
     private String company;

@@ -73,5 +73,10 @@
       </JFXButton>
       <JFXTextField fx:id="txtContact" layoutX="590.0" layoutY="184.0" promptText="Contact" style="-fx-background-color: #F2E8FD;" unFocusColor="#260746" />
       <JFXTextField fx:id="txtPassword" layoutX="411.0" layoutY="184.0" promptText="Password" style="-fx-background-color: #F2E8FD;" unFocusColor="#260746" />
+      <JFXButton layoutX="92.0" layoutY="81.0" onAction="#btnGenerateIDOnAction" prefHeight="30.0" prefWidth="108.0" style="-jfx-button-type: #260746;" text="Genreate ID" textFill="#7c06fa">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </JFXButton>
    </children>
 </AnchorPane>

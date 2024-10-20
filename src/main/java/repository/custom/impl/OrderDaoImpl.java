@@ -19,13 +19,14 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class OrderDaoImpl implements OrderDao {
     @Override
     public boolean save(OrderEntity order) throws SQLException {
         Connection connection= DBConnection.getInstance().getConnection();
         connection.setAutoCommit(false);
-        String SQL="INSERT INTO orders VALUES(?,?,?,?,?,?)";
+        String SQL="INSERT INTO Orders VALUES(?,?,?,?,?,?)";
         PreparedStatement pst=connection.prepareStatement(SQL);
         pst.setObject(1,order.getId());
         pst.setObject(2,order.getUserID());
@@ -55,18 +56,24 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public boolean update(OrderEntity entity) {
-        return false;
+        String SQL="Update Orders SET UserID=?, CustomerID=?, OrderDate=?,PaymentType=? WHERE OrderID='"+entity.getId()+"'";
+
+        try {
+            return CrudUtil.execute(SQL,entity.getUserID(),entity.getCustomerID(),entity.getOrderDate(),entity.getPaymentType());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public List<OrderEntity> findAll() throws SQLException {
-        String SQL="Select * FROM Order ";
+        String SQL="Select * FROM Orders ";
 
         List<OrderEntity> orderEntities=new ArrayList<>();
 
             ResultSet rst= CrudUtil.execute(SQL);
             while(rst.next()){
-                orderEntities.add(new OrderEntity(rst.getInt(1),rst.getString(2),rst.getString(3),LocalDate.parse(rst.getString(4)),rst.getString(5),(List<OrderDetail>)rst.getArray(6)));
+                orderEntities.add(new OrderEntity(rst.getString(1),rst.getString(2),rst.getString(3),LocalDate.parse(rst.getString(4)),rst.getString(5),(List<OrderDetail>)rst.getArray(6)));
             }
 
         return orderEntities;
@@ -74,12 +81,28 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public SuperEntity search(String id) {
+        String SQL="Select * From Orders WHERE OrderID='"+id+"'";
+        try {
+            ResultSet rst=CrudUtil.execute(SQL);
+            while (rst.next()){
+                List<OrderDetail> orderDetails=new ArrayList<>();
+                orderDetails.add((OrderDetail)rst.getArray(6));
+                return new OrderEntity(rst.getString(1),rst.getString(2),rst.getString(3),LocalDate.parse(rst.getString(4)),rst.getString(5),orderDetails);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         return null;
     }
 
     @Override
     public boolean delete(String id) {
-        return false;
+        String SQL="Delete From Orders WHERE OrderID='"+id+"'";
+        try {
+            return CrudUtil.execute(SQL);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

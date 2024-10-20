@@ -1,5 +1,6 @@
 package repository.custom.impl;
 
+import dto.Product;
 import entity.SuperEntity;
 import entity.OrderDetailEntity;
 import entity.ProductEntity;
@@ -45,7 +46,7 @@ public class ProductDaoImpl implements ProductDao {
 
             while(rst.next()){
                 ProductEntity entity=new ProductEntity(
-                        rst.getInt(1),
+                        rst.getString(1),
                         rst.getString(2),
                         rst.getString(3),
                         rst.getDouble(4),
@@ -63,12 +64,12 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public SuperEntity search(String id) {
+    public ProductEntity search(String id) {
         String SQL="Select * from Product where id='"+id+"'";
         try {
             ResultSet rst=CrudUtil.execute(SQL);
             while(rst.next()){
-                return new ProductEntity(rst.getInt(1),rst.getString(2),rst.getString(3),rst.getDouble(4),rst.getInt(5),rst.getString(6),rst.getString(7));
+                return new ProductEntity(rst.getString(1),rst.getString(2),rst.getString(3),rst.getDouble(4),rst.getInt(5),rst.getString(6),rst.getString(7));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

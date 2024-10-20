@@ -1,6 +1,7 @@
 package controller.product;
 
 import com.jfoenix.controls.JFXTextField;
+import dto.Customer;
 import dto.Product;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,6 +23,7 @@ import util.ServiceType;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 public class ProductFormController implements Initializable {
@@ -217,4 +219,16 @@ public class ProductFormController implements Initializable {
         combProductSize.setItems(sizes);
     }
 
+    public String generateID() {
+        String code="";
+        do{
+            code=String.format("P%06d", new Random().nextInt(9999) + 1);
+        }while (service.searchProduct(code)!=null);
+        return code;
+
+    }
+
+    public void btnGenerateIDOnAction(ActionEvent actionEvent) {
+        txtProductId.setText(generateID());
+    }
 }

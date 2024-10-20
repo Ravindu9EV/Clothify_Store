@@ -14,8 +14,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="534.0" prefWidth="832.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.product.ProductFormController">
+<AnchorPane prefHeight="534.0" prefWidth="832.0" style="-fx-background-color: #F2E8FD;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.product.ProductFormController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" height="81.0" stroke="BLACK" strokeType="INSIDE" width="832.0">
          <fill>
@@ -78,5 +77,10 @@
             <TableColumn fx:id="colProductImage" prefWidth="106.40008544921875" text="Image" />
         </columns>
       </TableView>
+      <JFXButton layoutX="188.0" layoutY="80.0" onAction="#btnGenerateIDOnAction" prefHeight="30.0" prefWidth="108.0" style="-jfx-button-type: #260746;" text="Genreate ID" textFill="#7c06fa">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </JFXButton>
    </children>
 </AnchorPane>

@@ -1,7 +1,7 @@
 package controller.employee;
 
 import com.jfoenix.controls.JFXTextField;
-import dto.Employee;
+import dto.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -12,11 +12,12 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import service.ServiceFactory;
-import service.custom.EmployeeService;
+import service.custom.*;
 import util.ServiceType;
 
 import java.net.URL;
-import java.util.AbstractList;
+import java.sql.SQLException;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 public class EmployeeFormController implements Initializable {
@@ -144,7 +145,8 @@ public class EmployeeFormController implements Initializable {
     }
 
     private void addValuesToTxt(Employee employee) {
-        txtID.setText(employee.getId());
+
+        txtID.setText(generateID());
         txtName.setText(employee.getName());
         txtEmail.setText(employee.getEmail());
         txtContact.setText(employee.getContact());
@@ -159,5 +161,22 @@ public class EmployeeFormController implements Initializable {
         txtCompany.clear();
         txtEmail.clear();
         txtPassword.clear();
+    }
+
+
+//-------------------Generate ID--------------------------
+
+    public String generateID() {
+        String code="";
+
+        do{
+            code=String.format("E%06d", new Random().nextInt(9999) + 1);
+        }
+        while (service.searchEmployee(code)==null);
+        return code;
+    }
+
+    public void btnGenerateIDOnAction(ActionEvent actionEvent) {
+        txtID.setText(generateID());
     }
 }

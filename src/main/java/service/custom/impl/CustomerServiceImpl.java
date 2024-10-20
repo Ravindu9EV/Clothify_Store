@@ -65,8 +65,11 @@ public class CustomerServiceImpl implements CustomerService {
         List<Customer> customers=new ArrayList<>();
         try {
             customerDao.findAll().forEach(customerEntity -> {
-                customers.add(new ModelMapper().map(customerEntity,Customer.class));
+                if(customerEntity!=null) {
+                    customers.add(new ModelMapper().map(customerEntity, Customer.class));
+                }
             });
+            System.out.println(customers);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

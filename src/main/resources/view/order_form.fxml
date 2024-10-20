@@ -71,7 +71,6 @@
          </columns>
       </TableView>
       <JFXTextField fx:id="txtProductQuantity" layoutX="366.0" layoutY="140.0" prefHeight="26.0" prefWidth="102.0" promptText="quantity" style="-fx-background-color: #F2E8FD;" unFocusColor="#260746" />
-      <JFXTextField fx:id="txtCustomerID" layoutX="252.0" layoutY="200.0" promptText="customerID" style="-fx-background-color: #F2E8FD;" unFocusColor="#260746" />
       <JFXButton layoutX="424.0" layoutY="285.0" onAction="#btnRemoveFromOrderOnAction" prefHeight="30.0" prefWidth="158.0" style="-fx-background-color: #D8BAF9;" text="Remove From Order" textFill="#260746">
          <font>
             <Font name="System Bold" size="14.0" />
@@ -161,6 +160,22 @@
          </font>
       </JFXButton>
       <JFXButton layoutX="997.0" layoutY="285.0" onAction="#btnDeleteCustomerOnAction" prefHeight="30.0" prefWidth="135.0" style="-fx-background-color: #D8BAF9;" text="Delete Customer" textFill="#260746">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </JFXButton>
+      <JFXButton layoutX="765.0" layoutY="716.0" onAction="#btnCustomerFormOnAction" prefHeight="30.0" prefWidth="135.0" style="-fx-background-color: #D8BAF9;" text="Customer Form" textFill="#260746">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </JFXButton>
+      <JFXButton layoutX="27.0" layoutY="245.0" onAction="#btnGenerateIDOnAction" prefHeight="30.0" prefWidth="108.0" style="-jfx-button-type: #260746;" text="Genreate ID" textFill="#7c06fa">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </JFXButton>
+      <ComboBox fx:id="combCustomerID" layoutX="239.0" layoutY="199.0" prefHeight="26.0" prefWidth="114.0" promptText="Customer ID" style="-fx-background-color: #F2E8FD;" />
+      <JFXButton layoutX="878.0" layoutY="245.0" onAction="#btnAddCustomerOnAction" prefHeight="30.0" prefWidth="65.0" style="-fx-background-color: #D8BAF9;" text="Add Customer" textFill="#260746">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>

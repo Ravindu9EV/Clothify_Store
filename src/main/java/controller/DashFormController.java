@@ -39,7 +39,8 @@ public class DashFormController {
             LoginServiceImpl.getInstance().setUserType(ServiceType.EMPLOYEE);
             //*** stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/login_form.fxml"))));
             //stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/admin_profile_edit_form.fxml"))));
-            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/product_form.fxml"))));
+            //stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/product_form.fxml"))));
+            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/order_form.fxml"))));
 
             stage.show();
             System.out.println(LoginServiceImpl.getInstance().getUserType());

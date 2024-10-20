@@ -30,19 +30,33 @@ public class OrderServiceImpl implements OrderService {
     OrderDetailDao type=DaoFactory.getInstance().getDaoType(DaoType.ORDERDETAIL);
     OrderDao orderDao=DaoFactory.getInstance().getDaoType(DaoType.ORDER);
     @Override
-    public boolean placeOrder(Order order) throws SQLException {
+    public boolean placeOrder(Order order)  {
 
-       return orderDao.save(new ModelMapper().map(order, OrderEntity.class));
+        try {
+            return orderDao.save(new ModelMapper().map(order, OrderEntity.class));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
     @Override
-    public List<Order> getAllOrders() throws SQLException {
+    public List<Order> getAllOrders()  {
         ObservableList<Order> observableList=FXCollections.observableArrayList();
-        orderDao.findAll().forEach(orderEntity -> {
-            observableList.add(new ModelMapper().map(orderEntity,Order.class));
-        });
+        try {
+            orderDao.findAll().forEach(orderEntity -> {
+                observableList.add(new ModelMapper().map(orderEntity,Order.class));
+            });
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         return observableList;
+    }
+
+    @Override
+    public Order search(String id) {
+       OrderEntity entity=(OrderEntity) orderDao.search(id);
+        return entity==null ? null : new ModelMapper().map(entity,Order.class);
     }
 }

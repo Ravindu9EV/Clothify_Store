@@ -13,9 +13,7 @@ import lombok.*;
 @ToString
 @Entity
 public class OrderDetailEntity implements SuperEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+
     private String orderID;
     private String productID;
     private Integer quantity;

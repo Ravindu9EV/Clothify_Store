@@ -29,8 +29,11 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     public Supplier searchSupplier(String id) {
-
-        return new ModelMapper().map( supplierDao.search(id),Supplier.class);
+        SupplierEntity entity=(SupplierEntity) supplierDao.search(id);
+        if(entity!=null){
+            return new ModelMapper().map(entity,Supplier.class);
+        }
+        return null;
     }
 
     @Override
@@ -56,4 +59,7 @@ public class SupplierServiceImpl implements SupplierService {
         }
         return suppliers;
     }
+
+
+
 }

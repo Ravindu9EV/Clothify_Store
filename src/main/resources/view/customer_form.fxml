@@ -12,8 +12,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="505.0" prefWidth="846.0" style="-fx-background-color: #F2E8FD;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CustomerFormController">
+<AnchorPane prefHeight="505.0" prefWidth="846.0" style="-fx-background-color: #F2E8FD;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.customer.CustomerFormController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" height="81.0" stroke="BLACK" strokeType="INSIDE" width="846.0">
          <fill>
@@ -39,7 +38,7 @@
          </font>
       </Label>
       <JFXTextField fx:id="txtID" layoutX="121.0" layoutY="120.0" promptText="ID" style="-fx-background-color: #F2E8FD;" unFocusColor="#260746" />
-      <JFXButton layoutX="323.0" layoutY="448.0" onAction="#btnAddEmployeeOnAction" prefHeight="30.0" prefWidth="135.0" style="-fx-background-color: #260746;" text="Send Receipt" textFill="#d8baf9">
+      <JFXButton layoutX="323.0" layoutY="448.0" onAction="#btnSendReceiptToCustomerOnAction" prefHeight="30.0" prefWidth="135.0" style="-fx-background-color: #260746;" text="Send Receipt" textFill="#d8baf9">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
@@ -55,17 +54,27 @@
       <JFXTextField fx:id="txtName" layoutX="270.0" layoutY="120.0" promptText="Name" style="-fx-background-color: #F2E8FD;" unFocusColor="#260746" />
       <JFXTextField fx:id="txtEmail" layoutX="418.0" layoutY="120.0" promptText="Email" style="-fx-background-color: #F2E8FD;" unFocusColor="#260746" />
       <JFXTextField fx:id="txtCompany" layoutX="567.0" layoutY="120.0" promptText="Company" style="-fx-background-color: #F2E8FD;" unFocusColor="#260746" />
-      <JFXButton layoutX="270.0" layoutY="191.0" onAction="#btnSearchEmployeeOnAction" prefHeight="30.0" prefWidth="135.0" style="-fx-background-color: #D8BAF9;" text="Search Customer" textFill="#260746">
+      <JFXButton layoutX="270.0" layoutY="191.0" onAction="#btnSearchCustomerOnAction" prefHeight="30.0" prefWidth="135.0" style="-fx-background-color: #D8BAF9;" text="Search Customer" textFill="#260746">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </JFXButton>
-      <JFXButton layoutX="440.0" layoutY="191.0" onAction="#btnUpdateEmployeeOnAction" prefHeight="30.0" prefWidth="146.0" style="-fx-background-color: #D8BAF9;" text="Update Customer" textFill="#260746">
+      <JFXButton layoutX="440.0" layoutY="191.0" onAction="#btnUpdateCustomerOnAction" prefHeight="30.0" prefWidth="146.0" style="-fx-background-color: #D8BAF9;" text="Update Customer" textFill="#260746">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </JFXButton>
-      <JFXButton layoutX="615.0" layoutY="191.0" onAction="#btnDeleteEmployeeOnAction" prefHeight="30.0" prefWidth="135.0" style="-fx-background-color: #D8BAF9;" text="Delete Customer" textFill="#260746">
+      <JFXButton layoutX="615.0" layoutY="191.0" onAction="#btnDeleteCustomerOnAction" prefHeight="30.0" prefWidth="135.0" style="-fx-background-color: #D8BAF9;" text="Delete Customer" textFill="#260746">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </JFXButton>
+      <JFXButton layoutX="41.0" layoutY="81.0" onAction="#btnGenerateIDOnAction" prefHeight="30.0" prefWidth="108.0" style="-jfx-button-type: #260746;" text="Genreate ID" textFill="#7c06fa">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </JFXButton>
+      <JFXButton layoutX="121.0" layoutY="191.0" onAction="#btnAddCustomerOnAction" prefHeight="30.0" prefWidth="135.0" style="-fx-background-color: #D8BAF9;" text="Search Customer" textFill="#260746">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
