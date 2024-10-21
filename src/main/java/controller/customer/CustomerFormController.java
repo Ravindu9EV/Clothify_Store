@@ -2,20 +2,29 @@ package controller.customer;
 
 import com.jfoenix.controls.JFXTextField;
 import dto.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import service.ServiceFactory;
 import service.custom.*;
 import util.ServiceType;
 
+import java.net.URL;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 
-public class CustomerFormController {
+public class CustomerFormController  implements Initializable {
 
-    @FXML
-    private TableColumn<?, ?> colCompany;
+    public TableView<Customer> tblCustomers;
+    public JFXTextField txtContact;
+    public TableColumn colContact;
+
 
     @FXML
     private TableColumn<?, ?> colEmail;
@@ -26,11 +35,9 @@ public class CustomerFormController {
     @FXML
     private TableColumn<?, ?> colName;
 
-    @FXML
-    private TableView<?> tblEmployees;
 
-    @FXML
-    private JFXTextField txtCompany;
+
+
 
     @FXML
     private JFXTextField txtEmail;
@@ -44,28 +51,12 @@ public class CustomerFormController {
 
     CustomerService customerService = ServiceFactory.getInstance().getServiceType(ServiceType.CUSTOMER);
 
-    @FXML
-    void btnAddEmployeeOnAction(ActionEvent event) {
-
-    }
-
-    @FXML
-    void btnDeleteEmployeeOnAction(ActionEvent event) {
-
-    }
-
-    @FXML
-    void btnSearchEmployeeOnAction(ActionEvent event) {
-
-    }
-
-    @FXML
-    void btnUpdateEmployeeOnAction(ActionEvent event) {
-
-    }
 
 
-    public String generateID() {
+
+
+
+    public String generateCustomerID() {
         int count=0;
         String code="";
         do{
@@ -77,22 +68,104 @@ public class CustomerFormController {
 
 
     public void btnGenerateIDOnAction(ActionEvent actionEvent) {
+        txtID.setText(generateCustomerID());
+
     }
 
     public void btnDeleteCustomerOnAction(ActionEvent actionEvent) {
+        if(customerService.deleteCustomer(txtID.getText())){
+            new Alert(Alert.AlertType.INFORMATION,"Customer Deleted!").show();
+        }else {
+            new Alert(Alert.AlertType.ERROR).show();
+        }
     }
 
     public void btnUpdateCustomerOnAction(ActionEvent actionEvent) {
+        if(customerService.updateCustomer(getTxtFieldsDetail())){
+            new Alert(Alert.AlertType.INFORMATION,"Customer Details Updated!").show();
+        }else {
+            new Alert(Alert.AlertType.ERROR).show();
+        }
     }
 
     public void btnSearchCustomerOnAction(ActionEvent actionEvent) {
-
+        OrderService orderService=ServiceFactory.getInstance().getServiceType(ServiceType.ORDER);
+//        orderService.search(txtID.getText(),tx)
     }
 
     public void btnSendReceiptToCustomerOnAction(ActionEvent actionEvent) {
     }
 
     public void btnAddCustomerOnAction(ActionEvent actionEvent) {
+        if(customerService.addCustomer(getTxtFieldsDetail())){
+            new Alert(Alert.AlertType.INFORMATION,"Customer Added...").show();
+        }else {
+            new Alert(Alert.AlertType.ERROR).show();
+        }
 
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        loadCustomerTable();
+
+        tblCustomers.getSelectionModel().selectedItemProperty().addListener((observableValue, o, t1) -> {
+            if(t1!=null){
+                addValueToTxtFields(t1);
+            }
+        });
+    }
+
+    //---------map Customer Table Columns----------------
+    public void setTblCustomerCols(){
+        colID.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+        colContact.setCellValueFactory(new PropertyValueFactory<>("contact"));
+    }
+
+    //--------------------load Table--------------------------
+    public void loadCustomerTable(){
+        ObservableList<Customer> customers= FXCollections.observableArrayList();
+        try {
+            customerService.getAll().forEach(customer -> {
+                customers.add(customer);
+            });
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        tblCustomers.setItems(customers);
+    }
+
+    //------------------Add Selected Item values to Text Fields-----------------------
+    public void addValueToTxtFields(Customer customer){
+        txtID.setText(customer.getId());
+        txtName.setText(customer.getName());
+        txtEmail.setText(customer.getEmail());
+        txtContact.setText(customer.getContact());
+    }
+
+    //-------------clear Text Fields----------------------------
+
+    public void clearTxt(){
+        txtID.clear();
+        txtEmail.clear();
+        txtName.clear();
+        txtContact.clear();
+    }
+
+    public void btnClearTextOnAction(ActionEvent actionEvent) {
+        clearTxt();
+    }
+
+    //--------------Get Text Fields Value---------------
+    public Customer getTxtFieldsDetail(){
+        return new Customer(
+                txtID.getText().toString(),
+                txtName.getText(),
+                txtEmail.getText(),
+                txtContact.getText()
+        );
     }
 }

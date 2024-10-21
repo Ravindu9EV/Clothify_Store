@@ -3,6 +3,9 @@ package controller.order;
 import com.jfoenix.controls.JFXTextField;
 import com.sun.javafx.binding.StringFormatter;
 import dto.*;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,12 +17,14 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import lombok.SneakyThrows;
 import repository.DaoFactory;
 import repository.custom.ProductDao;
 import service.ServiceFactory;
 import service.SuperService;
 import service.custom.CustomerService;
+import service.custom.OrderDetailService;
 import service.custom.OrderService;
 import service.custom.ProductService;
 import service.custom.impl.CustomerServiceImpl;
@@ -31,11 +36,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.ResourceBundle;
+import java.time.LocalTime;
+import java.util.*;
 
 public class OrderFormController  implements Initializable {
 
@@ -57,6 +61,7 @@ public class OrderFormController  implements Initializable {
     public TableColumn colCustomerEmail;
     public TableColumn colCustomerContact;
     public ComboBox combCustomerID;
+    public TableColumn colCustomerID;
 
     @FXML
     private TableColumn<?, ?> colOrderProductDiscount;
@@ -134,23 +139,17 @@ public class OrderFormController  implements Initializable {
     private OrderService orderService=ServiceFactory.getInstance().getServiceType(ServiceType.ORDER);
     ProductService productService=ServiceFactory.getInstance().getServiceType(ServiceType.PRODUCT);
     CustomerService customerService=ServiceFactory.getInstance().getServiceType(ServiceType.CUSTOMER);
-
+    OrderDetailService orderDetailService=ServiceFactory.getInstance().getServiceType(ServiceType.ORDERDETAIL);
     @FXML
     void btnAddToOrderOnAction(ActionEvent event) {
 
         try{
-            String orderID=lblOrderID.getText();
-            String productID= combProductID.getValue().toString();
-            Integer productQuantity=Integer.parseInt(txtProductQuantity.getText());
-            Double productPrice=Double.parseDouble(txtProductPrice.getText());
-            Double productDiscount=Double.parseDouble(txtProductDiscount.getText());
-            Double totalPrice=(productPrice-productDiscount)*productQuantity;
-
+//
 
             //-----------Customer Table------------
 
 
-            if(productQuantity<=Integer.parseInt(txtProductStock.getText())){
+            if(Integer.parseInt(txtProductQuantity.getText())<=Integer.parseInt(txtProductStock.getText())){
                 //new Cart(productID,productPrice,productQuantity,productDiscount,totalPrice)
                 cart.add(getCart());
                 tblOrder.setItems(cart);
@@ -217,8 +216,12 @@ public class OrderFormController  implements Initializable {
 
     private void loadCustomerIDs(){
         ObservableList<String> ids=FXCollections.observableArrayList();
-        for(Customer customer:customerService.getAll()){
-            ids.add(customer.getId());
+        try {
+            for(Customer customer:customerService.getAll()){
+                ids.add(customer.getId());
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
         combCustomerID.setItems(ids);
     }
@@ -226,50 +229,61 @@ public class OrderFormController  implements Initializable {
     @FXML
     void btnRemoveFromOrderOnAction(ActionEvent event) {
 
+        tblOrder.getSelectionModel().selectedItemProperty().addListener((observableValue, cart1, t1) -> {
+            if(t1!=null) {
+                tblOrder.getSelectionModel().clearSelection(tblOrder.selectionModelProperty().hashCode());
+            }
+        });
+        tblOrder.refresh();
+
     }
 
     @FXML
     void btnPlaceOrderOnAction(ActionEvent event) {
+        System.out.println(lblDate.getText());
         String oderId=generateID();
-
+        lblOrderID.setText(oderId);
+        List<OrderDetail> orderDetails=new ArrayList<>();
+        orderDetails.add(getOrderDetail());
+//        Order order=null;
         try {
-            lblOrderID.setText(oderId);
-            List<OrderDetail> orderDetails=new ArrayList<>();
-            orderDetails.add(new OrderDetail(oderId,txtProductID.getText(),Integer.parseInt(txtProductQuantity.getText()),Double.parseDouble(txtProductDiscount.getText())));
-            System.out.println(oderId+"pl");
-            Order order=new Order(oderId,lblUserID.getText(),txtCustomerID.getText(), LocalDate.parse(lblDate.getText()),combPaymentType.getValue().toString(),orderDetails);
-            System.out.println(order);
-            OrderService serviceType=ServiceFactory.getInstance().getServiceType(ServiceType.ORDER);
-
-            if(serviceType.placeOrder(order)){
-                CustomerService service=ServiceFactory.getInstance().getServiceType(ServiceType.CUSTOMER);
-                if(service.addCustomer(new Customer(txtCustomerID.getText(),txtCustomerName.getText(),txtCustomerEmail.getText(),txtCustomerContact.getText()))){
-                    new Alert(Alert.AlertType.INFORMATION,"Placed Order!").show();
-                    Stage stage=new Stage();
-                    try {
-                        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../../view/customer_form.fxml"))));
-                        stage.show();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
+            if(orderService.placeOrder(new Order(oderId,lblUserID.getText(),txtCustomerID.getText(), LocalDate.parse(lblDate.getText()),combPaymentType.getValue().toString(),orderDetails))){
+                if (orderDetailService.addOrderDetail(orderDetails)){
+                    if(productService.updateStock(getOrderDetail())){
+                        new Alert(Alert.AlertType.INFORMATION,"Placed Order!").show();
                     }
                 }
-
-            }else {
-                new Alert(Alert.AlertType.ERROR,"Order not Placed!!!").show();
-
             }
-        } catch (RuntimeException e) {
+            new Alert(Alert.AlertType.ERROR).show();
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
     }
 
+    //set Date
+
+    //--------Get Order----------
+    public OrderDetail getOrderDetail(){
+        //OrderDetail orderDetail=System.out.println(orderDetail);
+        return new OrderDetail(lblOrderID.getText(),combProductID.getValue(),Integer.parseInt(txtProductQuantity.getText()),Double.parseDouble(txtProductDiscount.getText()));
+    }
+    //--------------set Payment Type
+    private void setPaymentType(){
+
+        ObservableList<String> paymentTypes=FXCollections.observableArrayList();
+        paymentTypes.add("Online");
+        paymentTypes.add("Credit Card");
+        paymentTypes.add("Cash");
+        combPaymentType.setItems(paymentTypes);
+    }
     //--------------set customer text field -------------
     private void addValuesToCustomerTxtFields(Customer customer){
-        combCustomerID.setValue(customer.getId());
+        //combCustomerID.setValue(customer.getId());
+        txtCustomerID.setText(customer.getContact());
         txtCustomerName.setText(customer.getName());
         txtCustomerEmail.setText(customer.getEmail());
-        txtCustomerContact.setText(customer.getCotnact());
+        txtCustomerContact.setText(customer.getContact());
     }
 
     //-----------Map customer table records with customer Text fields--------
@@ -281,6 +295,8 @@ public class OrderFormController  implements Initializable {
         });
     }
 
+
+
     //-----get Customer Object------------
     private Customer getCustomer(){
         return new Customer(combCustomerID.getValue().toString(),txtCustomerName.getText(),txtCustomerEmail.getText(),txtCustomerContact.getText());
@@ -288,8 +304,9 @@ public class OrderFormController  implements Initializable {
 
     @FXML
     public void btnAddCustomerOnAction(ActionEvent actionEvent) {
-
-
+        customerService.addCustomer(getTxtCustomer());
+        loadCustomerTable();
+        System.out.println(getTxtCustomer());
 
     }
     @FXML
@@ -301,9 +318,7 @@ public class OrderFormController  implements Initializable {
             }
 
             if(customer!=null){
-                txtCustomerEmail.setText(customer.getEmail());
-                txtCustomerContact.setText(customer.getCotnact());
-                txtCustomerName.setText(customer.getName());
+                addValueToCustomerTxtFields(customer);
             }
         }catch (RuntimeException e){
             new Alert(Alert.AlertType.ERROR,"Oops!\n"+e).show();
@@ -327,23 +342,44 @@ public class OrderFormController  implements Initializable {
     @SneakyThrows
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        System.out.println(lblDate.getText());
+        //----Set Date-------------
+        Date newDate=new Date();
+        SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
+        lblDate.setText(dateFormat.format(newDate));
+
+
+        //---------Set Time--------
+        Timeline timeline=new Timeline(new KeyFrame(Duration.ZERO,actionEvent -> {
+            LocalTime time=LocalTime.now();
+            lblTime.setText(time.getHour()+":"+time.getMinute()+":"+time.getSecond());
+        }),new KeyFrame(Duration.seconds(1)));
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
+
         setProductIDs();
         setOrderTableCols();
         setCustomerTableCols();
         loadProductIDs();
         setOrderID();
+        setPaymentType();
+
         //------------Load Cart table---------
-
         loadOrderTable();
-
-        loadCustomerTable();
-
+        if (!customerService.getAll().isEmpty()){
+            loadCustomerTable();
+        }
         //-------------Load Product Categories------------
         setProductCategory();
         setProductSize();
         combProductID.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
             if(t1!=null ){
                 searchProduct(t1);
+            }
+        });
+        combPaymentType.getSelectionModel().selectedItemProperty().addListener((observableValue, o, t1) -> {
+            if(t1!=null){
+                combPaymentType.setValue(t1);
             }
         });
 
@@ -416,28 +452,14 @@ public class OrderFormController  implements Initializable {
 
     //---------------Set Customer Table Columns--------------------
     private void setCustomerTableCols(){
-        colProductID.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colCustomerID.setCellValueFactory(new PropertyValueFactory<>("id"));
         colCustomerName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colCustomerEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         colCustomerContact.setCellValueFactory(new PropertyValueFactory<>("contact"));
 
 
     }
-//-------------------Load Cutomer Table-----------------
-    public void loadCustomerTable(){
 
-       try {
-           List<Customer> customerList = customerService.getAll();
-
-           ObservableList<Customer> customers = FXCollections.observableArrayList();
-           for (Customer customer : customerList) {
-               customers.add(customer);
-           }
-           tblCustomers.setItems(customers);
-       }catch (RuntimeException e){
-           System.out.println(e);
-       }
-    }
 
     public void loadOrderTable() throws SQLException {
 //        OrderService service=ServiceFactory.getInstance().getServiceType(ServiceType.ORDER);
@@ -446,6 +468,7 @@ public class OrderFormController  implements Initializable {
 //        });
 
         tblOrder.setItems(cart);
+        tblOrder.editableProperty();
     }
 
     public void btnCustomerFormOnAction(ActionEvent actionEvent) {
@@ -474,5 +497,57 @@ public class OrderFormController  implements Initializable {
 
     public void setOrderID(){
         lblOrderID.setText(generateID());
+    }
+
+
+
+    //------------------------------Customer Section--------------------------------------------
+
+
+
+
+    //--------------------load Table--------------------------
+    public void loadCustomerTable(){
+        ObservableList<Customer> customers= FXCollections.observableArrayList();
+        try {
+            customerService.getAll().forEach(customer -> {
+                customers.add(customer);
+            });
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        tblCustomers.setItems(customers);
+    }
+
+    //------------------Add Selected Item values to Text Fields-----------------------
+    public void addValueToCustomerTxtFields(Customer customer){
+        txtCustomerID.setText(customer.getId());
+        txtCustomerName.setText(customer.getName());
+        txtCustomerEmail.setText(customer.getEmail());
+
+        txtCustomerContact.setText(customer.getContact());
+    }
+
+    //-------------clear Text Fields----------------------------
+
+    public void clearTxt(){
+        txtCustomerID.clear();
+        txtCustomerEmail.clear();
+        txtCustomerName.clear();
+        txtCustomerContact.clear();
+    }
+
+    public void btnClearTextOnAction(ActionEvent actionEvent) {
+        clearTxt();
+    }
+
+    //--------------Get Text Fields Value---------------
+    public Customer getTxtCustomer(){
+        return new Customer(
+                txtCustomerID.getText(),
+                txtCustomerName.getText(),
+                txtCustomerEmail.getText(),
+                txtCustomerContact.getText()
+        );
     }
 }

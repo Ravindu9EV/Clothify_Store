@@ -16,7 +16,7 @@ public class OrderDetailDaoImpl implements OrderDetailDao {
     @Override
     public boolean save(OrderDetailEntity entity) {
         String SQL="INSERT INTO orderDetail Values(?,?,?,?) ";
-
+        System.out.println(entity);
         try {
             return CrudUtil.execute(SQL,
                     entity.getOrderID(),
@@ -34,7 +34,7 @@ public class OrderDetailDaoImpl implements OrderDetailDao {
     @Override
     public boolean update(OrderDetailEntity entity) {
 
-        String SQL="UPDATE OrderDetail SET  ProductID=?, Quantity=?, Discount=? WHERE OrderID='"+entity.getOrderID()+"'";
+        String SQL="UPDATE orderDetail SET  ProductID=?, Quantity=?, Discount=? WHERE OrderID='"+entity.getOrderID()+"'";
         try {
             return CrudUtil.execute(SQL,entity.getProductID(),entity.getQuantity(),entity.getDiscount());
         } catch (SQLException e) {
@@ -44,11 +44,13 @@ public class OrderDetailDaoImpl implements OrderDetailDao {
 
     @Override
     public List<OrderDetailEntity> findAll() {
-        String SQL="Select * FROM OrderDetail";
+        String SQL="Select * FROM orderDetail";
         List<OrderDetailEntity> orderDetailEntities=new ArrayList<>();
         try {
             ResultSet resultSet=CrudUtil.execute(SQL);
-           orderDetailEntities.add( new OrderDetailEntity(resultSet.getString(1),resultSet.getString(2),resultSet.getInt(3),resultSet.getDouble(4)));
+           while (resultSet.next()){
+               orderDetailEntities.add( new OrderDetailEntity(resultSet.getString(1),resultSet.getString(2),resultSet.getInt(3),resultSet.getDouble(4)));
+           }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -57,7 +59,7 @@ public class OrderDetailDaoImpl implements OrderDetailDao {
 
     @Override
     public SuperEntity search(String id) {
-        String SQL="SELECT * FROM OrderDetail WHERE OrderID='"+id+"'";
+        String SQL="SELECT * FROM orderDetail WHERE OrderID='"+id+"'";
         try {
             ResultSet rst=CrudUtil.execute(SQL);
             while (rst.next()){
@@ -72,7 +74,7 @@ public class OrderDetailDaoImpl implements OrderDetailDao {
     @Override
     public boolean delete(String id) {
 
-        String SQL="Delete FROM OrderDetail WHERE OrderID='"+id+"'";
+        String SQL="Delete FROM orderDetail WHERE OrderID='"+id+"'";
 
         try {
             return CrudUtil.execute(SQL);
@@ -84,7 +86,7 @@ public class OrderDetailDaoImpl implements OrderDetailDao {
 
     @Override
     public List<OrderDetailEntity> findAll(String id) {
-        String SQL="SELECT * FROM OrderDetail WHERE OrderID='"+id+"'";
+        String SQL="SELECT * FROM orderDetail WHERE OrderID='"+id+"'";
 
         List<OrderDetailEntity> orderDetailEntities=new ArrayList<>();
         try {

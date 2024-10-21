@@ -14,7 +14,7 @@ import java.util.List;
 public class CustomerDaoImpl implements CustomerDao {
     @Override
     public boolean save(CustomerEntity entity) {
-        String SQL="INSERT INTO Customer VALUES(?,?,?,?,?)";
+        String SQL="INSERT INTO Customer VALUES(?,?,?,?)";
         try {
             return CrudUtil.execute(SQL,entity.getId(),entity.getName(),entity.getEmail(),entity.getContact());
         } catch (SQLException e) {
@@ -24,7 +24,7 @@ public class CustomerDaoImpl implements CustomerDao {
 
     @Override
     public boolean update(CustomerEntity entity) {
-        String SQL="UPDATE Customer SET name=?, contact=?, email=?, password=? WHERE id='"+entity.getId()+"'";
+        String SQL="UPDATE Customer SET CustomerName=?, CustomerEmail=?, CustomerContact=? WHERE id='"+entity.getId()+"'";
         try {
             return CrudUtil.execute(SQL,entity.getName(),entity.getEmail(),entity.getContact());
         } catch (SQLException e) {

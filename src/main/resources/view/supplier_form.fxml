@@ -101,7 +101,7 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </JFXButton>
-      <JFXButton layoutX="652.0" layoutY="145.0" onAction="#btnGenerateIDOnAction" prefHeight="30.0" prefWidth="61.0" style="-jfx-button-type: #260746;" text="Genreate ID" textFill="#d8baf9">
+      <JFXButton layoutX="680.0" layoutY="103.0" onAction="#btnGenerateIDOnAction" prefHeight="30.0" prefWidth="108.0" style="-jfx-button-type: #260746;" text="Genreate ID" textFill="#7c06fa">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>

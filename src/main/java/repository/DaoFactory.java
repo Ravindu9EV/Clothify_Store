@@ -5,6 +5,7 @@ import dto.Employee;
 import dto.Product;
 import dto.Supplier;
 import repository.custom.impl.*;
+import service.custom.impl.CustomerServiceImpl;
 import util.DaoType;
 
 public class DaoFactory {
@@ -25,6 +26,7 @@ public class DaoFactory {
             case PRODUCT: return (T) new ProductDaoImpl();
             case ORDER: return (T) new OrderDaoImpl();
             case ORDERDETAIL:return (T) new OrderDetailDaoImpl();
+            case CUSTOMER:return (T) new CustomerDaoImpl();
         }
         return null;
     }

@@ -98,7 +98,7 @@
       </Label>
       <TableView fx:id="tblCustomers" layoutX="670.0" layoutY="354.0" prefHeight="336.0" prefWidth="416.0" style="-fx-background-color: #BF8CF5;">
          <columns>
-            <TableColumn fx:id="colProductID" prefWidth="75.0" text="ID" />
+            <TableColumn fx:id="colCustomerID" prefWidth="75.0" text="ID" />
             <TableColumn fx:id="colCustomerName" prefWidth="148.0" text="Name" />
             <TableColumn fx:id="colCustomerEmail" prefWidth="84.79998779296875" text="Email" />
             <TableColumn fx:id="colCustomerContact" prefWidth="116.0" text="Contact" />
@@ -175,11 +175,12 @@
          </font>
       </JFXButton>
       <ComboBox fx:id="combCustomerID" layoutX="239.0" layoutY="199.0" prefHeight="26.0" prefWidth="114.0" promptText="Customer ID" style="-fx-background-color: #F2E8FD;" />
-      <JFXButton layoutX="878.0" layoutY="245.0" onAction="#btnAddCustomerOnAction" prefHeight="30.0" prefWidth="65.0" style="-fx-background-color: #D8BAF9;" text="Add Customer" textFill="#260746">
+      <JFXButton layoutX="862.0" layoutY="245.0" onAction="#btnAddCustomerOnAction" prefHeight="30.0" prefWidth="145.0" style="-fx-background-color: #D8BAF9;" text="Add Customer" textFill="#260746">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </JFXButton>
+      <JFXTextField fx:id="txtCustomerID" layoutX="251.0" layoutY="232.0" promptText="Customer ID" style="-fx-background-color: #F2E8FD;" unFocusColor="#260746" />
      
    </children>
 </AnchorPane>

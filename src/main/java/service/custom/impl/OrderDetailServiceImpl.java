@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import util.DaoType;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDetailServiceImpl implements OrderDetailService {
@@ -24,26 +25,30 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     }
 
     @Override
-    public boolean addOrderDetail(OrderDetail orderDetails){
-//        String SQL="INSERT INTO orderDetail Values(?,?,?,?) ";
-//
-//        return CrudUtil.execute(SQL,
-//                orderDetails.getOrderID(),
-//                orderDetails.getProductID(),
-//                orderDetails.getQuantity(),
-//                orderDetails.getDiscount()
-//        );
+    public boolean addOrderDetail(OrderDetail orderDetail){
+        System.out.println(orderDetail!=null? "[][]"+orderDetail: "No Detail");
         try {
-            return orderDetailDao.save(new ModelMapper().map(orderDetails, OrderDetailEntity.class));
+            return orderDetail!=null ? orderDetailDao.save(new ModelMapper().map(orderDetail, OrderDetailEntity.class)) :false;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-
     }
 
     @Override
     public List<OrderDetail> getAll() {
-        return List.of();
+        List<OrderDetail> orderDetails=new ArrayList<>();
+       try{
+
+           for(OrderDetailEntity orderDetailEntity:orderDetailDao.findAll()){
+               if(orderDetailEntity!=null){
+                   orderDetails.add(new ModelMapper().map(orderDetailEntity,OrderDetail.class));
+                   System.out.println("\n\nadded"+orderDetailEntity);
+               }
+           }
+       }catch (SQLException e){
+           throw new RuntimeException(e);
+       }
+       return orderDetails;
     }
+
 }

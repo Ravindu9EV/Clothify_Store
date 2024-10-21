@@ -16,5 +16,6 @@ public class Order {
     private String customerID;
     private LocalDate orderDate;
     private String paymentType;
+
     private List<OrderDetail> orderDetails;
 }

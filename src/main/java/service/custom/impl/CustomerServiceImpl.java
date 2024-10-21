@@ -61,14 +61,14 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<Customer> getAll() {
+    public List<Customer> getAll()  {
         List<Customer> customers=new ArrayList<>();
-        try {
-            customerDao.findAll().forEach(customerEntity -> {
+       try {
+            for(CustomerEntity customerEntity:customerDao.findAll()) {
                 if(customerEntity!=null) {
                     customers.add(new ModelMapper().map(customerEntity, Customer.class));
                 }
-            });
+            }
             System.out.println(customers);
         } catch (SQLException e) {
             throw new RuntimeException(e);

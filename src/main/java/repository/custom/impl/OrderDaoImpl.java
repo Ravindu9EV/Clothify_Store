@@ -1,15 +1,20 @@
 package repository.custom.impl;
 
 import db.DBConnection;
+import dto.Order;
 import dto.OrderDetail;
 import entity.SuperEntity;
 import entity.OrderDetailEntity;
 import entity.OrderEntity;
 import org.modelmapper.ModelMapper;
+import repository.DaoFactory;
 import repository.custom.OrderDao;
+import repository.custom.OrderDetailDao;
 import service.ServiceFactory;
 import service.custom.OrderDetailService;
+import service.custom.OrderService;
 import util.CrudUtil;
+import util.DaoType;
 import util.ServiceType;
 
 import java.sql.Connection;
@@ -22,36 +27,15 @@ import java.util.List;
 import java.util.Map;
 
 public class OrderDaoImpl implements OrderDao {
+    OrderDetailService orderDetailService=ServiceFactory.getInstance().getServiceType(ServiceType.ORDERDETAIL);
+    OrderDetailDao orderDetailDao= DaoFactory.getInstance().getDaoType(DaoType.ORDERDETAIL);
     @Override
     public boolean save(OrderEntity order) throws SQLException {
-        Connection connection= DBConnection.getInstance().getConnection();
-        connection.setAutoCommit(false);
-        String SQL="INSERT INTO Orders VALUES(?,?,?,?,?,?)";
-        PreparedStatement pst=connection.prepareStatement(SQL);
-        pst.setObject(1,order.getId());
-        pst.setObject(2,order.getUserID());
-        pst.setObject(3,order.getCustomerID());
-        pst.setObject(4,order.getOrderDate());
-        pst.setObject(5,order.getPaymentType());
-        boolean isOrderAdd= pst.executeUpdate()>0;
-        if(isOrderAdd){
-            OrderDetailService type= ServiceFactory.getInstance().getServiceType(ServiceType.ORDERDETAIL);
-            if (type.addOrderDetail(order.getOrderDetails())) {
-                List<OrderDetailEntity> orderDetailEntities=new ArrayList<>();
-                order.getOrderDetails().forEach(orderDetail -> {
-                    orderDetailEntities.add(new ModelMapper().map(orderDetail, OrderDetailEntity.class));
-                });
-                if (new ProductDaoImpl().updateStock(orderDetailEntities)) {
+        System.out.println(order);
 
-                    connection.commit();
+        String SQL="INSERT INTO Orders VALUES(?,?,?,?,?)";
 
-                    return true;
-                }
-            }
-
-        }
-        connection.rollback();
-        return false;
+        return CrudUtil.execute(SQL,order.getId(),order.getUserID(),order.getCustomerID(),order.getOrderDate(),order.getPaymentType());
     }
 
     @Override
@@ -71,9 +55,10 @@ public class OrderDaoImpl implements OrderDao {
 
         List<OrderEntity> orderEntities=new ArrayList<>();
 
+            List<OrderDetail> orderDetails=orderDetailService.getAll();
             ResultSet rst= CrudUtil.execute(SQL);
             while(rst.next()){
-                orderEntities.add(new OrderEntity(rst.getString(1),rst.getString(2),rst.getString(3),LocalDate.parse(rst.getString(4)),rst.getString(5),(List<OrderDetail>)rst.getArray(6)));
+                orderEntities.add(new OrderEntity(rst.getString(1),rst.getString(2),rst.getString(3),LocalDate.parse(rst.getString(4)),rst.getString(5),orderDetails));
             }
 
         return orderEntities;
@@ -86,7 +71,12 @@ public class OrderDaoImpl implements OrderDao {
             ResultSet rst=CrudUtil.execute(SQL);
             while (rst.next()){
                 List<OrderDetail> orderDetails=new ArrayList<>();
-                orderDetails.add((OrderDetail)rst.getArray(6));
+                for(OrderDetailEntity orderDetailEntity:orderDetailDao.findAll(id)){
+                    if(orderDetailEntity!=null){
+                        orderDetails.add(new ModelMapper().map(orderDetailEntity,OrderDetail.class));
+                    }
+                };
+
                 return new OrderEntity(rst.getString(1),rst.getString(2),rst.getString(3),LocalDate.parse(rst.getString(4)),rst.getString(5),orderDetails);
             }
         } catch (SQLException e) {
@@ -94,6 +84,7 @@ public class OrderDaoImpl implements OrderDao {
         }
         return null;
     }
+
 
     @Override
     public boolean delete(String id) {
@@ -106,4 +97,24 @@ public class OrderDaoImpl implements OrderDao {
     }
 
 
+    @Override
+    public Order search(String id, String customerID) {
+        String SQL="Select * From Orders WHERE OrderID='"+id+"' and CustomerID='"+customerID+"'";
+
+        try {
+            ResultSet rst=CrudUtil.execute(SQL);
+            while (rst.next()){
+                List<OrderDetail> orderDetails=new ArrayList<>();
+                for (OrderDetailEntity orderDetailEntity:orderDetailDao.findAll(id)){
+                   if(orderDetailEntity!=null) {
+                       orderDetails.add(new ModelMapper().map(orderDetailEntity,OrderDetail.class));
+                   }
+                }
+                return new Order(rst.getString(1),rst.getString(2),rst.getString(3),LocalDate.parse(rst.getString(4)),rst.getString(5),orderDetails);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
 }
