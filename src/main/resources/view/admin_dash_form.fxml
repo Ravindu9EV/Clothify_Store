@@ -49,7 +49,7 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </JFXButton>
-      <JFXButton layoutX="23.0" layoutY="200.0" onAction="#btnStocksFormOnAction" prefHeight="40.0" prefWidth="204.0" style="-fx-background-color: #D8BAF9;" text="Stocks" textFill="#260746">
+      <JFXButton layoutX="23.0" layoutY="200.0" onAction="#btnStocksFormOnAction" prefHeight="40.0" prefWidth="204.0" style="-fx-background-color: #D8BAF9;" text="Place Order" textFill="#260746">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>

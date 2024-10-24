@@ -65,4 +65,13 @@ public class AdminDashFormController {
         }
     }
 
+    public void btnAdminEditFormOnAction(ActionEvent actionEvent) {
+        try {
+            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("../../view/admin_profile_edit_form.fxml"))));
+            stage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 }
