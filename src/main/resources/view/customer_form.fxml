@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -84,5 +85,6 @@
          </font>
       </JFXButton>
       <JFXTextField fx:id="txtContact" layoutX="599.0" layoutY="120.0" promptText="Contact" style="-fx-background-color: #F2E8FD;" unFocusColor="#260746" />
+      <ComboBox fx:id="combCustomerID" layoutX="123.0" layoutY="177.0" prefHeight="26.0" prefWidth="114.0" promptText="Customer ID" style="-fx-background-color: #F2E8FD;" />
    </children>
 </AnchorPane>

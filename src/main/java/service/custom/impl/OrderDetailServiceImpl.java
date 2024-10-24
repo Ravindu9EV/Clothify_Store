@@ -28,7 +28,10 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     public boolean addOrderDetail(OrderDetail orderDetail){
         System.out.println(orderDetail!=null? "[][]"+orderDetail: "No Detail");
         try {
-            return orderDetail!=null ? orderDetailDao.save(new ModelMapper().map(orderDetail, OrderDetailEntity.class)) :false;
+            //return orderDetail!=null ? orderDetailDao.save(new ModelMapper().map(orderDetail, OrderDetailEntity.class)) :false;
+            boolean add=orderDetailDao.save(new ModelMapper().map(orderDetail, OrderDetailEntity.class));
+            System.out.println("o detail: "+add);
+            return add;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

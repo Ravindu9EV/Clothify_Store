@@ -1,10 +1,12 @@
 package repository.custom.impl;
 
-import entity.OrderEntity;
-import entity.SuperEntity;
-import entity.OrderDetailEntity;
+import entity.*;
+import repository.DaoFactory;
+import repository.custom.OrderDao;
 import repository.custom.OrderDetailDao;
+import repository.custom.ProductDao;
 import util.CrudUtil;
+import util.DaoType;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,18 +15,27 @@ import java.util.Arrays;
 import java.util.List;
 
 public class OrderDetailDaoImpl implements OrderDetailDao {
+    //OrderDao orderDao= DaoFactory.getInstance().getDaoType(DaoType.ORDER);
+    //ProductDao productDao=DaoFactory.getInstance().getDaoType(DaoType.PRODUCT);
     @Override
     public boolean save(OrderDetailEntity entity) {
         String SQL="INSERT INTO orderDetail Values(?,?,?,?) ";
         System.out.println(entity);
         try {
-            return CrudUtil.execute(SQL,
+            //OrderDetailKey orderDetailKey=new OrderDetailKey(entity.getOrderID(), entity.getProductID());
+            //System.out.println(orderDetailKey.getOrderID()+"\n\n"+orderDetailKey.getProductID());
+           boolean deetAdd= CrudUtil.execute(SQL,
                     entity.getOrderID(),
                     entity.getProductID(),
                     entity.getQuantity(),
                     entity.getDiscount()
             );
+            System.out.println(entity
+                    .getOrderID());
+            System.out.println("detailDao->save()"+deetAdd);
+            return deetAdd;
         } catch (SQLException e) {
+            System.out.println("detailDao->"+e);
             throw new RuntimeException(e);
         }
     }
@@ -36,8 +47,9 @@ public class OrderDetailDaoImpl implements OrderDetailDao {
 
         String SQL="UPDATE orderDetail SET  ProductID=?, Quantity=?, Discount=? WHERE OrderID='"+entity.getOrderID()+"'";
         try {
-            return CrudUtil.execute(SQL,entity.getProductID(),entity.getQuantity(),entity.getDiscount());
+            return CrudUtil.execute(SQL,entity.getOrderID(),entity.getProductID(),entity.getQuantity(),entity.getDiscount());
         } catch (SQLException e) {
+            System.out.println("detailDao->uodate()"+e);
             throw new RuntimeException(e);
         }
     }
@@ -49,7 +61,12 @@ public class OrderDetailDaoImpl implements OrderDetailDao {
         try {
             ResultSet resultSet=CrudUtil.execute(SQL);
            while (resultSet.next()){
+               //orderDetailEntities.add( new OrderDetailEntity(new OrderDetailKey(resultSet.getString(1),resultSet.getString(2)),resultSet.getString(1),resultSet.getString(2),resultSet.getInt(3),resultSet.getDouble(4)));
                orderDetailEntities.add( new OrderDetailEntity(resultSet.getString(1),resultSet.getString(2),resultSet.getInt(3),resultSet.getDouble(4)));
+//
+//               OrderEntity orderEntity=(OrderEntity) orderDao.search(rst.getString(1));
+//               ProductEntity productEntity=(ProductEntity) productDao.search(rst.getString(2));
+//               orderDetailEntities.add(new OrderDetailEntity(new OrderDetailKey(orderEntity.getId(),productEntity.getId()),orderEntity,productEntity,rst.getInt(3),rst.getDouble(4)));
            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -63,9 +80,14 @@ public class OrderDetailDaoImpl implements OrderDetailDao {
         try {
             ResultSet rst=CrudUtil.execute(SQL);
             while (rst.next()){
-                return new OrderDetailEntity(rst.getString(1),rst.getString(2),rst.getInt(3),rst.getDouble(4));
+//                OrderEntity orderEntity=(OrderEntity) orderDao.search(rst.getString(1));
+//                ProductEntity productEntity=(ProductEntity) productDao.search(rst.getString(2));
+                //return new OrderDetailEntity(new OrderDetailKey(rst.getString(1),rst.getString(2)),rst.getString(1),rst.getString(2),rst.getInt(3),rst.getDouble(4));
+               return new OrderDetailEntity(rst.getString(1),rst.getString(2),rst.getInt(3),rst.getDouble(4));
+
             }
         } catch (SQLException e) {
+            System.out.println("detailDao->search() "+e);
             throw new RuntimeException(e);
         }
         return null;
@@ -92,7 +114,12 @@ public class OrderDetailDaoImpl implements OrderDetailDao {
         try {
             ResultSet resultSet=CrudUtil.execute(SQL);
             while (resultSet.next()){
+               //orderDetailEntities.add(new OrderDetailEntity(new OrderDetailKey(resultSet.getString(1),resultSet.getString(2)),resultSet.getString(1),resultSet.getString(2),resultSet.getInt(3),resultSet.getDouble(4)));
                 orderDetailEntities.add(new OrderDetailEntity(resultSet.getString(1),resultSet.getString(2),resultSet.getInt(3),resultSet.getDouble(4)));
+
+                //                OrderEntity orderEntity=(OrderEntity) orderDao.search(rst.getString(1));
+//                ProductEntity productEntity=(ProductEntity) productDao.search(rst.getString(2));
+//                orderDetailEntities.add(new OrderDetailEntity(new OrderDetailKey(orderEntity.getId(),productEntity.getId()),rst.getString(1),rst.getString(2),rst.getInt(3),rst.getDouble(4)));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

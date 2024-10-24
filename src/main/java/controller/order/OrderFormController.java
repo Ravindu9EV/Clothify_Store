@@ -140,6 +140,8 @@ public class OrderFormController  implements Initializable {
     ProductService productService=ServiceFactory.getInstance().getServiceType(ServiceType.PRODUCT);
     CustomerService customerService=ServiceFactory.getInstance().getServiceType(ServiceType.CUSTOMER);
     OrderDetailService orderDetailService=ServiceFactory.getInstance().getServiceType(ServiceType.ORDERDETAIL);
+
+    private List<OrderDetail> orderDetails=new ArrayList<>();
     @FXML
     void btnAddToOrderOnAction(ActionEvent event) {
 
@@ -154,6 +156,8 @@ public class OrderFormController  implements Initializable {
                 cart.add(getCart());
                 tblOrder.setItems(cart);
                 calcTotal();
+
+                orderDetails.add(getOrderDetail());
             }
         }catch (RuntimeException e){
             new Alert(Alert.AlertType.ERROR,"Oops!\n"+e).show();
@@ -213,46 +217,57 @@ public class OrderFormController  implements Initializable {
         lblTotal.setText(total.toString());
     }
 
-
-    private void loadCustomerIDs(){
-        ObservableList<String> ids=FXCollections.observableArrayList();
-        try {
-            for(Customer customer:customerService.getAll()){
-                ids.add(customer.getId());
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        combCustomerID.setItems(ids);
-    }
+//
+//    private void loadCustomerIDs(){
+//        ObservableList<String> ids=FXCollections.observableArrayList();
+//        try {
+//            for(Customer customer:customerService.getAll()){
+//                ids.add(customer.getId());
+//            }
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//        combCustomerID.setItems(ids);
+//    }
 
     @FXML
     void btnRemoveFromOrderOnAction(ActionEvent event) {
 
-        tblOrder.getSelectionModel().selectedItemProperty().addListener((observableValue, cart1, t1) -> {
-            if(t1!=null) {
-                tblOrder.getSelectionModel().clearSelection(tblOrder.selectionModelProperty().hashCode());
-            }
-        });
+//        tblOrder.getSelectionModel().getSelectedCells((observableValue, cartTableViewSelectionModel, t1) -> {
+//            tblOrder.getSelectionModel().clearSelection(tblOrder.getSelectionModel().getSelectedIndex());
+//            cart.remove(t1);
+//
+//
+//        });
+
         tblOrder.refresh();
+        try {
+            loadOrderTable();
+            tblOrder.getSelectionModel().selectedItemProperty().addListener((observableValue, cart1, t1) -> {
+                if(t1!=null){
+                    orderDetails.remove(t1);
+                }
+            });
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
     @FXML
     void btnPlaceOrderOnAction(ActionEvent event) {
-        System.out.println(lblDate.getText());
-        String oderId=generateID();
-        lblOrderID.setText(oderId);
-        List<OrderDetail> orderDetails=new ArrayList<>();
-        orderDetails.add(getOrderDetail());
+
+
+
 //        Order order=null;
         try {
-            if(orderService.placeOrder(new Order(oderId,lblUserID.getText(),txtCustomerID.getText(), LocalDate.parse(lblDate.getText()),combPaymentType.getValue().toString(),orderDetails))){
-                if (orderDetailService.addOrderDetail(orderDetails)){
-                    if(productService.updateStock(getOrderDetail())){
+
+            if(orderService.placeOrder(new Order(lblOrderID.getText(),lblUserID.getText(),txtCustomerID.getText(), LocalDate.parse(lblDate.getText()),combPaymentType.getValue().toString(),orderDetails))){
+               // if (orderDetailService.addOrderDetail(orderDetails)){
+                   // if(productService.updateStock(getOrderDetail())){
                         new Alert(Alert.AlertType.INFORMATION,"Placed Order!").show();
-                    }
-                }
+                  //  }
+               // }
             }
             new Alert(Alert.AlertType.ERROR).show();
         } catch (SQLException e) {
@@ -487,6 +502,7 @@ public class OrderFormController  implements Initializable {
         String code="";
         do{
             code=String.format("CS%06d", new Random().nextInt(9999) + 1);
+            System.out.println(code);
         }while (orderService.search(code)!=null);
         return code;
     }
@@ -497,6 +513,19 @@ public class OrderFormController  implements Initializable {
 
     public void setOrderID(){
         lblOrderID.setText(generateID());
+
+//        String code="";
+//        for(Order order:orderService.getAllOrders()){
+//            if(order.getId().equals(generateID())){
+//                code=generateID();
+//
+//            }
+//        }
+//        if(orderService.search()) {
+//            lblOrderID.setText(generateID());
+//        }else{
+//            lblOrderID.setText(generateID());
+//        }
     }
 
 

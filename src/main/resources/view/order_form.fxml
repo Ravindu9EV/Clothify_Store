@@ -174,7 +174,6 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </JFXButton>
-      <ComboBox fx:id="combCustomerID" layoutX="239.0" layoutY="199.0" prefHeight="26.0" prefWidth="114.0" promptText="Customer ID" style="-fx-background-color: #F2E8FD;" />
       <JFXButton layoutX="862.0" layoutY="245.0" onAction="#btnAddCustomerOnAction" prefHeight="30.0" prefWidth="145.0" style="-fx-background-color: #D8BAF9;" text="Add Customer" textFill="#260746">
          <font>
             <Font name="System Bold" size="14.0" />

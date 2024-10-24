@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -24,6 +25,7 @@ public class CustomerFormController  implements Initializable {
     public TableView<Customer> tblCustomers;
     public JFXTextField txtContact;
     public TableColumn colContact;
+    public ComboBox combCustomerID;
 
 
     @FXML
@@ -167,5 +169,17 @@ public class CustomerFormController  implements Initializable {
                 txtEmail.getText(),
                 txtContact.getText()
         );
+    }
+
+        private void loadCustomerIDs(){
+        ObservableList<String> ids=FXCollections.observableArrayList();
+        try {
+            for(Customer customer:customerService.getAll()){
+                ids.add(customer.getId());
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        combCustomerID.setItems(ids);
     }
 }

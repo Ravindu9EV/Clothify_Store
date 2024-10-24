@@ -98,10 +98,13 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public boolean updateStock(OrderDetailEntity orderDetailEntity) {
-        String SQL="UPDATE Product SET quantity=quantity-? WHERE id=?";
+        String SQL="UPDATE Product SET quantity=quantity-? WHERE id='"+orderDetailEntity.getProductID()+"'";
         try {
-            return CrudUtil.execute(SQL,orderDetailEntity.getQuantity(),orderDetailEntity.getProductID());
+            boolean stu= CrudUtil.execute(SQL,orderDetailEntity.getQuantity());
+            System.out.println("productDao->updateStock-status: "+stu);
+            return stu;
         } catch (SQLException e) {
+            System.out.println("productDao->updateStock( orderDetailEntity)"+e);
             throw new RuntimeException(e);
         }
     }

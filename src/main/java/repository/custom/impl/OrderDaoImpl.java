@@ -10,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import repository.DaoFactory;
 import repository.custom.OrderDao;
 import repository.custom.OrderDetailDao;
+import repository.custom.ProductDao;
 import service.ServiceFactory;
 import service.custom.OrderDetailService;
 import service.custom.OrderService;
@@ -32,11 +33,53 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public boolean save(OrderEntity order) throws SQLException {
         System.out.println(order);
+        Connection connection= DBConnection.getInstance().getConnection();
 
-        String SQL="INSERT INTO Orders VALUES(?,?,?,?,?)";
+            try {
 
-        return CrudUtil.execute(SQL,order.getId(),order.getUserID(),order.getCustomerID(),order.getOrderDate(),order.getPaymentType());
-    }
+                //if(order!=null) {
+
+                connection.setAutoCommit(false);
+                String SQL = "INSERT INTO orders VALUES(?,?,?,?,?)";
+                PreparedStatement pst = connection.prepareStatement(SQL);
+                pst.setObject(1, order.getId());
+                pst.setObject(2, order.getUserID());
+                pst.setObject(3, order.getCustomerID());
+                pst.setObject(4, order.getOrderDate());
+                pst.setObject(5, order.getPaymentType());
+                boolean isOrderAdd = pst.executeUpdate() > 0;
+                OrderEntity orderEntity = null;
+                if (order != null) {
+                    orderEntity = new ModelMapper().map(order, OrderEntity.class);
+                }
+
+                if (isOrderAdd) {
+                    boolean isOrderDetailAdd = orderDetailService.addOrderDetail(orderEntity.getOrderDetails());
+                    System.out.println("****--->" + isOrderDetailAdd);
+                    if (isOrderDetailAdd) {
+                        ProductDao productDao = DaoFactory.getInstance().getDaoType(DaoType.PRODUCT);
+                        List<OrderDetailEntity> orderDetailEntities=new ArrayList<>();
+                        for(OrderDetail orderDetail:order.getOrderDetails()){
+                            if(orderDetail!=null){
+                                orderDetailEntities.add(new ModelMapper().map(orderDetail,OrderDetailEntity.class));
+                            }
+                        }
+                        boolean pd=productDao.updateStock(orderDetailEntities);
+                        System.out.println("orderDao->sav()->productDao->updatestock()");
+                        if (pd) {
+                            System.out.println("Addddddd");
+                            connection.commit();
+                            return true;
+                        }
+                    }
+                }
+
+            }finally {
+                    connection.setAutoCommit(true);
+            }
+        connection.rollback();
+        return false;
+        }
 
     @Override
     public boolean update(OrderEntity entity) {

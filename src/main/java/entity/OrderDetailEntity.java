@@ -1,9 +1,6 @@
 package entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Setter
@@ -14,8 +11,22 @@ import lombok.*;
 @Entity
 public class OrderDetailEntity implements SuperEntity {
 
+//    @EmbeddedId
+//    OrderDetailKey id;
+
+//    @ManyToOne
+//    @MapsId("OrderID")
+//    @JoinColumn(name="OrderId")
+//    OrderEntity order;
+//    @ManyToOne
+//    @MapsId("ProductID")
+//    @JoinColumn(name = "id")
+//    ProductEntity product;
+ //   @Column(name="OrderID",insertable = true ,updatable  = true)
     private String orderID;
+  //  @Column(name="ProductID",insertable = true ,updatable  = true)
     private String productID;
     private Integer quantity;
     private double discount;
+
 }
