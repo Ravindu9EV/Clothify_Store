@@ -139,7 +139,6 @@ public class OrderFormController  implements Initializable {
     private OrderService orderService=ServiceFactory.getInstance().getServiceType(ServiceType.ORDER);
     ProductService productService=ServiceFactory.getInstance().getServiceType(ServiceType.PRODUCT);
     CustomerService customerService=ServiceFactory.getInstance().getServiceType(ServiceType.CUSTOMER);
-    OrderDetailService orderDetailService=ServiceFactory.getInstance().getServiceType(ServiceType.ORDERDETAIL);
 
     private List<OrderDetail> orderDetails=new ArrayList<>();
     @FXML
@@ -150,14 +149,40 @@ public class OrderFormController  implements Initializable {
 
             //-----------Customer Table------------
 
+            if(txtProductQuantity.getText().equals("")){
+                new Alert(Alert.AlertType.ERROR,"Input Quantity!!!").show();
+
+            }
+            if(txtProductDiscount.getText().equals("")){
+                txtProductDiscount.setText("0");
+            }
 
             if(Integer.parseInt(txtProductQuantity.getText())<=Integer.parseInt(txtProductStock.getText())){
-                //new Cart(productID,productPrice,productQuantity,productDiscount,totalPrice)
-                cart.add(getCart());
-                tblOrder.setItems(cart);
-                calcTotal();
 
-                orderDetails.add(getOrderDetail());
+                //new Cart(productID,productPrice,productQuantity,productDiscount,totalPrice)
+                boolean isProductAlreadyAdded=false;
+                for(Cart cart1:cart ){
+                    if(combProductID.getValue().equals(cart1.getProductID())){
+                        isProductAlreadyAdded=true;
+                    }
+//                    else{
+
+//                        Integer newQnt=cart1.getProductQuantity()+Integer.parseInt( txtProductQuantity.getText());
+//                        if(newQnt<=Integer.parseInt(txtProductStock.getText())){
+//                            cart1.setProductQuantity(newQnt);
+//                        }
+
+ //                   }
+                }
+                if(!isProductAlreadyAdded){
+                    cart.add(getCart());
+                    tblOrder.setItems(cart);
+                    calcTotal();
+
+                    orderDetails.add(getOrderDetail());
+                }else{
+                    new Alert(Alert.AlertType.ERROR,"Product Already Added!!!").show();
+                }
             }
         }catch (RuntimeException e){
             new Alert(Alert.AlertType.ERROR,"Oops!\n"+e).show();
@@ -233,12 +258,7 @@ public class OrderFormController  implements Initializable {
     @FXML
     void btnRemoveFromOrderOnAction(ActionEvent event) {
 
-//        tblOrder.getSelectionModel().getSelectedCells((observableValue, cartTableViewSelectionModel, t1) -> {
-//            tblOrder.getSelectionModel().clearSelection(tblOrder.getSelectionModel().getSelectedIndex());
-//            cart.remove(t1);
-//
-//
-//        });
+
 
         tblOrder.refresh();
         try {
@@ -266,10 +286,15 @@ public class OrderFormController  implements Initializable {
                // if (orderDetailService.addOrderDetail(orderDetails)){
                    // if(productService.updateStock(getOrderDetail())){
                         new Alert(Alert.AlertType.INFORMATION,"Placed Order!").show();
+                        cart=FXCollections.observableArrayList();
+                        orderDetails=new ArrayList<>();
+                        loadOrderTable();
+                        clearTxt();
+                        setOrderID();
+
                   //  }
                // }
             }
-            new Alert(Alert.AlertType.ERROR).show();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -312,10 +337,7 @@ public class OrderFormController  implements Initializable {
 
 
 
-    //-----get Customer Object------------
-    private Customer getCustomer(){
-        return new Customer(combCustomerID.getValue().toString(),txtCustomerName.getText(),txtCustomerEmail.getText(),txtCustomerContact.getText());
-    }
+
 
     @FXML
     public void btnAddCustomerOnAction(ActionEvent actionEvent) {
@@ -432,11 +454,7 @@ public class OrderFormController  implements Initializable {
         combProductCategory.setItems(category);
     }
 
-    private void addValueToText(Product product) {
-        txtProductStock.setText(product.getQuantity().toString());
-        txtProductPrice.setText(product.getPrice()+"");
 
-    }
 
     private Product searchProduct(String id) {
         ProductService productService=ServiceFactory.getInstance().getServiceType(ServiceType.PRODUCT);
@@ -564,6 +582,12 @@ public class OrderFormController  implements Initializable {
         txtCustomerEmail.clear();
         txtCustomerName.clear();
         txtCustomerContact.clear();
+        txtProductQuantity.clear();
+        txtProductStock.clear();
+        txtProductDiscount.clear();
+        txtProductPrice.clear();
+        setProductSize();
+        lblTotal.setText("00.00");
     }
 
     public void btnClearTextOnAction(ActionEvent actionEvent) {
