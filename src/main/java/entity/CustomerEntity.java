@@ -1,9 +1,6 @@
 package entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Setter
@@ -12,6 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 @Entity
+@Table(name="Customer")
 public class CustomerEntity implements SuperEntity{
     @Id
     private String id;

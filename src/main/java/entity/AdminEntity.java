@@ -11,12 +11,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-
+@Table(name = "Admin")
 public class AdminEntity implements SuperEntity {
 
         @Id
-        @GeneratedValue(strategy = GenerationType.AUTO)
-        private Integer id;
+        private String id;
         private String name;
         private String contact;
         private String email;

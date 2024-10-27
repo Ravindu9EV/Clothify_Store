@@ -2,6 +2,7 @@ package controller.employee;
 
 import com.jfoenix.controls.JFXTextField;
 import dto.*;
+import entity.EmployeeEntity;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -59,8 +60,9 @@ public class EmployeeFormController implements Initializable {
 
 
        try {
-           getTxtValues();
+
             if(service.addEmployee(getTxtValues())){
+                System.out.println(getTxtValues());
                 loadEmployeeTable();
                 new Alert(Alert.AlertType.INFORMATION,"Added...").show();
             }else {
@@ -80,9 +82,9 @@ public class EmployeeFormController implements Initializable {
     private void loadEmployeeTable() {
         ObservableList<Employee> employees= FXCollections.observableArrayList();
 
-         service.getAll().forEach(employee -> {
+         for(Employee employee:service.getAll()) {
              employees.add(employee);
-         });
+         }
         tblEmployees.setItems(employees);
     }
 
@@ -146,7 +148,7 @@ public class EmployeeFormController implements Initializable {
 
     private void addValuesToTxt(Employee employee) {
 
-        txtID.setText(generateID());
+        txtID.setText(employee.getId());
         txtName.setText(employee.getName());
         txtEmail.setText(employee.getEmail());
         txtContact.setText(employee.getContact());
@@ -172,7 +174,7 @@ public class EmployeeFormController implements Initializable {
         do{
             code=String.format("E%06d", new Random().nextInt(9999) + 1);
         }
-        while (service.searchEmployee(code)==null);
+        while (service.searchEmployee(code)!=null);
         return code;
     }
 

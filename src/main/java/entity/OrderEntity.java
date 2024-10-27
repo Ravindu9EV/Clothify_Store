@@ -13,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @Entity
+@Table(name = "Orders")
 public class OrderEntity implements SuperEntity {
     @Id
     private String id;
@@ -20,6 +21,6 @@ public class OrderEntity implements SuperEntity {
     private String customerID;
     private LocalDate orderDate;
     private String paymentType;
-    @OneToMany(mappedBy = "OrderEntity")
-    private List<OrderDetail> orderDetails;
+    @OneToMany
+    private List<OrderDetailEntity> orderDetails;
 }

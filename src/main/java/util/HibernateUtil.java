@@ -1,9 +1,7 @@
 package util;
 
-import entity.AdminEntity;
-import entity.EmployeeEntity;
-import entity.ProductEntity;
-import entity.SupplierEntity;
+import dto.OrderDetail;
+import entity.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
@@ -21,7 +19,7 @@ public class HibernateUtil {
                 .build();
 
         Metadata metadata=new MetadataSources(build)
-                .addAnnotatedClasses(AdminEntity.class, EmployeeEntity.class, ProductEntity.class, SupplierEntity.class)
+                .addAnnotatedClasses(AdminEntity.class, EmployeeEntity.class, ProductEntity.class, SupplierEntity.class, CustomerEntity.class, OrderEntity.class, OrderDetailEntity.class,OrderDetailKey.class)
                 .getMetadataBuilder()
                 .applyImplicitNamingStrategy(ImplicitNamingStrategyJpaCompliantImpl.INSTANCE)
                 .build();

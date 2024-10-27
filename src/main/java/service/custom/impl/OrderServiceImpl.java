@@ -1,6 +1,8 @@
 package service.custom.impl;
 
 import dto.Order;
+import dto.OrderDetail;
+import entity.OrderDetailEntity;
 import entity.OrderEntity;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,6 +13,7 @@ import service.custom.OrderService;
 import util.DaoType;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderServiceImpl implements OrderService {
@@ -21,6 +24,14 @@ public class OrderServiceImpl implements OrderService {
     public boolean placeOrder(Order order){
 
         try {
+            if(!order.getOrderDetails().isEmpty()){
+                List<OrderDetailEntity> orderDetailEntities=new ArrayList<>();
+                for(OrderDetail orderDetail:order.getOrderDetails()){
+                    if(orderDetail!=null){
+                        orderDetailEntities.add(new ModelMapper().map(orderDetail,OrderDetailEntity.class));
+                    }
+                }
+            }
             return orderDao.save(new ModelMapper().map(order, OrderEntity.class));
         } catch (SQLException e) {
             System.out.println(e);

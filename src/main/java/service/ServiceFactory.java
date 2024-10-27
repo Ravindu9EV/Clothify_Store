@@ -1,10 +1,8 @@
 package service;
 
-import dto.OrderDetail;
+
 import service.custom.impl.*;
 import util.ServiceType;
-
-import static util.DaoType.*;
 
 public class ServiceFactory {
     public static ServiceFactory instance;
@@ -22,6 +20,7 @@ public class ServiceFactory {
             case CUSTOMER: return (T) new CustomerServiceImpl();
             case ORDER: return (T) new OrderServiceImpl();
             case ORDERDETAIL: return (T) new OrderDetailServiceImpl();
+            case EMAIL: return (T) new EmailServiceImpl();
 
         }
         return null;

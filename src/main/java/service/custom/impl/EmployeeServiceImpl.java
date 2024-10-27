@@ -19,7 +19,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         if(employee!=null){
             try {
-                return type.save(new ModelMapper().map(type, EmployeeEntity.class));
+                return type.save(new ModelMapper().map(employee, EmployeeEntity.class));
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -39,12 +39,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public boolean updateEmployee(Employee employee) {
 
-        return type.update(new ModelMapper().map(employee, EmployeeEntity.class));
+        return employee!=null? type.update(new ModelMapper().map(employee, EmployeeEntity.class)):false;
     }
 
     @Override
     public boolean deleteEmployee(String id) {
-        return type.delete(id);
+        return  type.delete(id);
     }
 
     @Override

@@ -63,9 +63,9 @@ public class AdminServiceImpl implements AdminService {
 
         try {
             List<Admin> admins=new ArrayList<>();
-            type.findAll().forEach(adminEntity -> {
-                admins.add(new ModelMapper().map(adminEntity, Admin.class));
-            });
+            for (AdminEntity  entity:type.findAll()) {
+               if(entity!=null) admins.add(new ModelMapper().map(entity, Admin.class));
+            }
             return admins;
         } catch (SQLException e) {
             throw new RuntimeException(e);

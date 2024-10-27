@@ -38,22 +38,27 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     public boolean updateSupplier(Supplier supplier) {
+        if(supplier!=null){
+            return supplierDao.update(new ModelMapper().map(supplier,SupplierEntity.class));
 
-        return supplierDao.update(new ModelMapper().map(supplier,SupplierEntity.class));
+        }
+        return false;
     }
 
     @Override
     public boolean deleteSupplier(String id) {
-        return supplierDao.delete(id);
+        return id.isEmpty() ? false: supplierDao.delete(id);
     }
 
     @Override
     public List<Supplier> getAll() {
         List<Supplier> suppliers=new ArrayList<>();
         try {
-            supplierDao.findAll().forEach(supplierEntity -> {
-                suppliers.add(new ModelMapper().map(supplierEntity,Supplier.class));
-            });
+           for(SupplierEntity supplierEntity:supplierDao.findAll()){
+               if(supplierEntity!=null){
+                   suppliers.add(new ModelMapper().map(supplierEntity,Supplier.class));
+               }
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

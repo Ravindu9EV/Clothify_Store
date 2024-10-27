@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-
+@Table(name="Employee")
 public class EmployeeEntity implements SuperEntity{
     @Id
     private String id;

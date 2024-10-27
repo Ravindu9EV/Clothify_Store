@@ -6,16 +6,20 @@ import dto.OrderDetail;
 import entity.SuperEntity;
 import entity.OrderDetailEntity;
 import entity.OrderEntity;
+import org.hibernate.Session;
 import org.modelmapper.ModelMapper;
 import repository.DaoFactory;
+import repository.SuperDao;
 import repository.custom.OrderDao;
 import repository.custom.OrderDetailDao;
 import repository.custom.ProductDao;
+import repository.custom.SupplierDao;
 import service.ServiceFactory;
 import service.custom.OrderDetailService;
 import service.custom.OrderService;
 import util.CrudUtil;
 import util.DaoType;
+import util.HibernateUtil;
 import util.ServiceType;
 
 import java.sql.Connection;
@@ -30,55 +34,64 @@ import java.util.Map;
 public class OrderDaoImpl implements OrderDao {
     OrderDetailService orderDetailService=ServiceFactory.getInstance().getServiceType(ServiceType.ORDERDETAIL);
     OrderDetailDao orderDetailDao= DaoFactory.getInstance().getDaoType(DaoType.ORDERDETAIL);
+    ProductDao productDao= DaoFactory.getInstance().getDaoType(DaoType.PRODUCT);
     @Override
     public boolean save(OrderEntity order) throws SQLException {
         System.out.println(order);
+
         Connection connection= DBConnection.getInstance().getConnection();
+        Session session=HibernateUtil.getSession();
+        session.getTransaction().begin();
+        session.persist(order);
 
-            try {
-
-                //if(order!=null) {
-
-                connection.setAutoCommit(false);
-                String SQL = "INSERT INTO orders VALUES(?,?,?,?,?)";
-                PreparedStatement pst = connection.prepareStatement(SQL);
-                pst.setObject(1, order.getId());
-                pst.setObject(2, order.getUserID());
-                pst.setObject(3, order.getCustomerID());
-                pst.setObject(4, order.getOrderDate());
-                pst.setObject(5, order.getPaymentType());
-                boolean isOrderAdd = pst.executeUpdate() > 0;
-                OrderEntity orderEntity = null;
-                if (order != null) {
-                    orderEntity = new ModelMapper().map(order, OrderEntity.class);
-                }
-
-                if (isOrderAdd) {
-                    boolean isOrderDetailAdd = orderDetailService.addOrderDetail(orderEntity.getOrderDetails());
-                    System.out.println("****--->" + isOrderDetailAdd);
-                    if (isOrderDetailAdd) {
-                        ProductDao productDao = DaoFactory.getInstance().getDaoType(DaoType.PRODUCT);
-                        List<OrderDetailEntity> orderDetailEntities=new ArrayList<>();
-                        for(OrderDetail orderDetail:order.getOrderDetails()){
-                            if(orderDetail!=null){
-                                orderDetailEntities.add(new ModelMapper().map(orderDetail,OrderDetailEntity.class));
-                            }
-                        }
-                        boolean pd=productDao.updateStock(orderDetailEntities);
-                        System.out.println("orderDao->sav()->productDao->updatestock()");
-                        if (pd) {
-                            System.out.println("Addddddd");
-                            connection.commit();
-                            return true;
-                        }
-                    }
-                }
-
-            }finally {
-                    connection.setAutoCommit(true);
-            }
-        connection.rollback();
+        if((orderDetailDao.save(order.getOrderDetails()))&&(productDao.updateStock(order.getOrderDetails()))){
+            session.getTransaction().commit();
+            session.close();
+            return true;
+        }
+        session.getTransaction().rollback();
         return false;
+//
+//                connection.setAutoCommit(false);
+//                String SQL = "INSERT INTO orders VALUES(?,?,?,?,?)";
+//                PreparedStatement pst = connection.prepareStatement(SQL);
+//                pst.setObject(1, order.getId());
+//                pst.setObject(2, order.getUserID());
+//                pst.setObject(3, order.getCustomerID());
+//                pst.setObject(4, order.getOrderDate());
+//                pst.setObject(5, order.getPaymentType());
+//                boolean isOrderAdd = pst.executeUpdate() > 0;
+//                OrderEntity orderEntity = null;
+//                if (order != null) {
+//                    orderEntity = new ModelMapper().map(order, OrderEntity.class);
+//                }
+//
+//                if (isOrderAdd) {
+//                    boolean isOrderDetailAdd = orderDetailService.addOrderDetail(orderEntity.getOrderDetails());
+//                    System.out.println("****--->" + isOrderDetailAdd);
+//                    if (isOrderDetailAdd) {
+//
+//                        List<OrderDetailEntity> orderDetailEntities=new ArrayList<>();
+//                        for(OrderDetailEntity orderDetailEntity:order.getOrderDetails()){
+//                            if(orderDetailEntity!=null){
+//                                orderDetailEntities.add(orderDetailEntity);
+//                            }
+//                        }
+//                        boolean pd=productDao.updateStock(orderDetailEntities);
+//                        System.out.println("orderDao->sav()->productDao->updatestock()");
+//                        if (pd) {
+//                            System.out.println("Addddddd");
+//                            connection.commit();
+//                            return true;
+//                        }
+//                    }
+//                }
+//
+//            }finally {
+//                    connection.setAutoCommit(true);
+//            }
+//        connection.rollback();
+//        return false;
         }
 
     @Override
@@ -93,38 +106,53 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<OrderEntity> findAll() throws SQLException {
-        String SQL="Select * FROM Orders ";
-
-        List<OrderEntity> orderEntities=new ArrayList<>();
-
-            List<OrderDetail> orderDetails=orderDetailService.getAll();
-            ResultSet rst= CrudUtil.execute(SQL);
-            while(rst.next()){
-                orderEntities.add(new OrderEntity(rst.getString(1),rst.getString(2),rst.getString(3),LocalDate.parse(rst.getString(4)),rst.getString(5),orderDetails));
-            }
-
+    public List<OrderEntity> findAll()  {
+        Session session= HibernateUtil.getSession();
+        session.getTransaction().begin();
+        List<OrderEntity> orderEntities=session.createQuery("Select a From OrderEntity a",OrderEntity.class).getResultList();
+        session.getTransaction().commit();
+        session.close();
         return orderEntities;
+
+//        String SQL="Select * FROM Orders ";
+//
+//        List<OrderEntity> orderEntities=new ArrayList<>();
+//
+//            List<OrderDetail> orderDetails=orderDetailService.getAll();
+//            ResultSet rst= CrudUtil.execute(SQL);
+//            while(rst.next()){
+//                orderEntities.add(new OrderEntity(rst.getString(1),rst.getString(2),rst.getString(3),LocalDate.parse(rst.getString(4)),rst.getString(5),orderDetails));
+//            }
+//
+//        return orderEntities;
     }
 
     @Override
     public SuperEntity search(String id) {
-        String SQL="Select * From Orders WHERE OrderID='"+id+"'";
-        try {
-            ResultSet rst=CrudUtil.execute(SQL);
-            while (rst.next()){
-                List<OrderDetail> orderDetails=new ArrayList<>();
-                for(OrderDetailEntity orderDetailEntity:orderDetailDao.findAll(id)){
-                    if(orderDetailEntity!=null){
-                        orderDetails.add(new ModelMapper().map(orderDetailEntity,OrderDetail.class));
-                    }
-                };
-
-                return new OrderEntity(rst.getString(1),rst.getString(2),rst.getString(3),LocalDate.parse(rst.getString(4)),rst.getString(5),orderDetails);
+        List<OrderEntity> orderEntities=findAll();
+        for(OrderEntity orderEntity:orderEntities){
+            if(orderEntity.getId().equals(id)){
+                return orderEntity;
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
+
+
+//        String SQL="Select * From Orders WHERE OrderID='"+id+"'";
+//        try {
+//            ResultSet rst=CrudUtil.execute(SQL);
+//            while (rst.next()){
+//                List<OrderDetail> orderDetails=new ArrayList<>();
+//                for(OrderDetailEntity orderDetailEntity:orderDetailDao.findAll(id)){
+//                    if(orderDetailEntity!=null){
+//                        orderDetails.add(new ModelMapper().map(orderDetailEntity,OrderDetail.class));
+//                    }
+//                };
+//
+//                return new OrderEntity(rst.getString(1),rst.getString(2),rst.getString(3),LocalDate.parse(rst.getString(4)),rst.getString(5),orderDetails);
+//            }
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
         return null;
     }
 

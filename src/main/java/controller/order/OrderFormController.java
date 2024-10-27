@@ -23,10 +23,7 @@ import repository.DaoFactory;
 import repository.custom.ProductDao;
 import service.ServiceFactory;
 import service.SuperService;
-import service.custom.CustomerService;
-import service.custom.OrderDetailService;
-import service.custom.OrderService;
-import service.custom.ProductService;
+import service.custom.*;
 import service.custom.impl.CustomerServiceImpl;
 import service.custom.impl.ProductServiceImpl;
 import util.DaoType;
@@ -286,11 +283,19 @@ public class OrderFormController  implements Initializable {
                // if (orderDetailService.addOrderDetail(orderDetails)){
                    // if(productService.updateStock(getOrderDetail())){
                         new Alert(Alert.AlertType.INFORMATION,"Placed Order!").show();
+                        EmailService emailService=ServiceFactory.getInstance().getServiceType(ServiceType.EMAIL);
+                        EmployeeService employeeService=ServiceFactory.getInstance().getServiceType(ServiceType.EMPLOYEE);
+                       Employee employee= employeeService.searchEmployee(lblUserID.getText());
+                        if(emailService.sendRecipt(lblOrderID.getText(),cart,employee.getEmail(),txtCustomerEmail.getText(),Double.parseDouble(lblTotal.getText()))){
+                            new Alert(Alert.AlertType.INFORMATION,"Email Sent!").show();
+                        }
                         cart=FXCollections.observableArrayList();
                         orderDetails=new ArrayList<>();
                         loadOrderTable();
                         clearTxt();
                         setOrderID();
+
+
 
                   //  }
                // }
@@ -320,7 +325,7 @@ public class OrderFormController  implements Initializable {
     //--------------set customer text field -------------
     private void addValuesToCustomerTxtFields(Customer customer){
         //combCustomerID.setValue(customer.getId());
-        txtCustomerID.setText(customer.getContact());
+        txtCustomerID.setText(customer.getId());
         txtCustomerName.setText(customer.getName());
         txtCustomerEmail.setText(customer.getEmail());
         txtCustomerContact.setText(customer.getContact());
@@ -373,7 +378,12 @@ public class OrderFormController  implements Initializable {
 
     @FXML
     void btnDeleteCustomerOnAction(ActionEvent event) {
-
+        if(customerService.deleteCustomer(txtCustomerID.getText())){
+            new Alert(Alert.AlertType.INFORMATION,"Customer Deleted!").show();
+            loadCustomerTable();
+        }else {
+            new Alert(Alert.AlertType.ERROR).show();
+        }
     }
 
     @SneakyThrows

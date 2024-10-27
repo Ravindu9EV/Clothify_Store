@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface OrderDetailDao extends CrudRepository<OrderDetailEntity> {
     List<OrderDetailEntity> findAll(String id);
+    boolean save(List<OrderDetailEntity> orderDetailEntities);
 
 }

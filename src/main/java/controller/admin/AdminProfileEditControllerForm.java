@@ -137,6 +137,12 @@ public class AdminProfileEditControllerForm implements Initializable {
 
         loadAdminTable();
 
+        tblAdmin.getSelectionModel().selectedItemProperty().addListener((observableValue, admin, t1) -> {
+            if(t1!=null){
+                addValueToTxt(t1);
+            }
+        });
+
     }
     //-------------Load Admin Table-----------------------
     private void loadAdminTable(){
@@ -159,5 +165,24 @@ public class AdminProfileEditControllerForm implements Initializable {
         txtContact.clear();
         txtEmail.clear();
         txtPassword.clear();
+    }
+
+    public String generateAdminID() {
+        AdminService adminService=ServiceFactory.getInstance().getServiceType(ServiceType.ADMIN);
+        int count=0;
+        String code="";
+        do{
+            code=String.format("A%06d", count + 1);
+        }while (adminService.searchAdmin(code)!=null);
+
+        return code;
+    }
+
+    public void setAdminId(){
+
+    }
+
+    public void btnGenerateIDOnAction(ActionEvent actionEvent) {
+        txtID.setText(generateAdminID());
     }
 }

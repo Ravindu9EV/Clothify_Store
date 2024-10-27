@@ -77,6 +77,7 @@ public class CustomerFormController  implements Initializable {
     public void btnDeleteCustomerOnAction(ActionEvent actionEvent) {
         if(customerService.deleteCustomer(txtID.getText())){
             new Alert(Alert.AlertType.INFORMATION,"Customer Deleted!").show();
+            loadCustomerTable();
         }else {
             new Alert(Alert.AlertType.ERROR).show();
         }
@@ -84,7 +85,9 @@ public class CustomerFormController  implements Initializable {
 
     public void btnUpdateCustomerOnAction(ActionEvent actionEvent) {
         if(customerService.updateCustomer(getTxtFieldsDetail())){
+
             new Alert(Alert.AlertType.INFORMATION,"Customer Details Updated!").show();
+            loadCustomerTable();
         }else {
             new Alert(Alert.AlertType.ERROR).show();
         }
@@ -100,6 +103,7 @@ public class CustomerFormController  implements Initializable {
 
     public void btnAddCustomerOnAction(ActionEvent actionEvent) {
         if(customerService.addCustomer(getTxtFieldsDetail())){
+            loadCustomerTable();
             new Alert(Alert.AlertType.INFORMATION,"Customer Added...").show();
         }else {
             new Alert(Alert.AlertType.ERROR).show();
@@ -109,7 +113,7 @@ public class CustomerFormController  implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        setTblCustomerCols();
         loadCustomerTable();
 
         tblCustomers.getSelectionModel().selectedItemProperty().addListener((observableValue, o, t1) -> {

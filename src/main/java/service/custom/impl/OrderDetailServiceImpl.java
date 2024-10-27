@@ -15,8 +15,8 @@ import java.util.List;
 public class OrderDetailServiceImpl implements OrderDetailService {
     OrderDetailDao orderDetailDao=DaoFactory.getInstance().getDaoType(DaoType.ORDERDETAIL);
     @Override
-    public boolean addOrderDetail(List<OrderDetail> orderDetails) {
-        for(OrderDetail orderDetail:orderDetails){
+    public boolean addOrderDetail(List<OrderDetailEntity> orderDetails) {
+        for(OrderDetailEntity orderDetail:orderDetails){
             if(!addOrderDetail(orderDetail)){
                 return false;
             }
@@ -25,11 +25,11 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     }
 
     @Override
-    public boolean addOrderDetail(OrderDetail orderDetail){
-        System.out.println(orderDetail!=null? "[][]"+orderDetail: "No Detail");
+    public boolean addOrderDetail(OrderDetailEntity orderDetailEntity){
+        System.out.println(orderDetailEntity!=null? "[][]"+orderDetailEntity: "No Detail");
         try {
             //return orderDetail!=null ? orderDetailDao.save(new ModelMapper().map(orderDetail, OrderDetailEntity.class)) :false;
-            boolean add=orderDetailDao.save(new ModelMapper().map(orderDetail, OrderDetailEntity.class));
+            boolean add=orderDetailDao.save(orderDetailEntity);
             System.out.println("o detail: "+add);
             return add;
         } catch (SQLException e) {

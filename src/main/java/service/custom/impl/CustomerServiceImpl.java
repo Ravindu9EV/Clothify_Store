@@ -36,16 +36,16 @@ public class CustomerServiceImpl implements CustomerService {
        if(id==null ^ id.length()<=0){
            return null;
        }else{
-           String SQL="Select * FROM Customer Where id='"+id+"'";
-           return new ModelMapper().map(customerDao.search(SQL), Customer.class);
+
+           return new ModelMapper().map(customerDao.search(id), Customer.class);
        }
     }
 
     @Override
     public Customer searchCustomerByEmail(String email) {
 
-        String SQL="SELECT * FROM Customer WHERE email='"+email+"'";
-        CustomerEntity entity=(CustomerEntity) customerDao.search(SQL);
+       // String SQL="SELECT * FROM Customer WHERE email='"+email+"'";
+        CustomerEntity entity=(CustomerEntity) customerDao.search(email);
         return entity!=null ? new ModelMapper().map(entity, Customer.class): null;
 
     }

@@ -9,10 +9,11 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 @Entity
+@Table(name = "OrderDetail")
 public class OrderDetailEntity implements SuperEntity {
 
-//    @EmbeddedId
-//    OrderDetailKey id;
+    @EmbeddedId
+    OrderDetailKey id;
 
 //    @ManyToOne
 //    @MapsId("OrderID")
@@ -22,9 +23,9 @@ public class OrderDetailEntity implements SuperEntity {
 //    @MapsId("ProductID")
 //    @JoinColumn(name = "id")
 //    ProductEntity product;
- //   @Column(name="OrderID",insertable = true ,updatable  = true)
+   @Column(name="OrderID",insertable = false ,updatable  = false)
     private String orderID;
-  //  @Column(name="ProductID",insertable = true ,updatable  = true)
+   @Column(name="ProductID",insertable = false ,updatable  = false)
     private String productID;
     private Integer quantity;
     private double discount;

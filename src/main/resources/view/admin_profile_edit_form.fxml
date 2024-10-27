@@ -96,5 +96,10 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
+      <JFXButton layoutX="26.0" layoutY="99.0" onAction="#btnGenerateIDOnAction" prefHeight="30.0" prefWidth="108.0" style="-jfx-button-type: #260746;" text="Genreate ID" textFill="#7c06fa">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </JFXButton>
    </children>
 </AnchorPane>
