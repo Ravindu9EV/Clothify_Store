@@ -273,35 +273,36 @@ public class OrderFormController  implements Initializable {
 
     @FXML
     void btnPlaceOrderOnAction(ActionEvent event) {
-
-
-
-//        Order order=null;
         try {
+            try {
 
-            if(orderService.placeOrder(new Order(lblOrderID.getText(),lblUserID.getText(),txtCustomerID.getText(), LocalDate.parse(lblDate.getText()),combPaymentType.getValue().toString(),orderDetails))){
-               // if (orderDetailService.addOrderDetail(orderDetails)){
-                   // if(productService.updateStock(getOrderDetail())){
-                        new Alert(Alert.AlertType.INFORMATION,"Placed Order!").show();
-                        EmailService emailService=ServiceFactory.getInstance().getServiceType(ServiceType.EMAIL);
-                        EmployeeService employeeService=ServiceFactory.getInstance().getServiceType(ServiceType.EMPLOYEE);
-                       Employee employee= employeeService.searchEmployee(lblUserID.getText());
-                        if(emailService.sendRecipt(lblOrderID.getText(),cart,employee.getEmail(),txtCustomerEmail.getText(),Double.parseDouble(lblTotal.getText()))){
-                            new Alert(Alert.AlertType.INFORMATION,"Email Sent!").show();
+                if (orderService.placeOrder(new Order(lblOrderID.getText(), lblUserID.getText(), txtCustomerID.getText(), LocalDate.parse(lblDate.getText()), combPaymentType.getValue().toString(), orderDetails))) {
+                    // if (orderDetailService.addOrderDetail(orderDetails)){
+                    // if(productService.updateStock(getOrderDetail())){
+                    new Alert(Alert.AlertType.INFORMATION, "Placed Order!").show();
+                    EmailService emailService = ServiceFactory.getInstance().getServiceType(ServiceType.EMAIL);
+                    EmployeeService employeeService = ServiceFactory.getInstance().getServiceType(ServiceType.EMPLOYEE);
+                    Employee employee = employeeService.searchEmployee(lblUserID.getText());
+                    if(employee!=null){
+                        if (emailService.sendRecipt(lblOrderID.getText(), cart, employee.getEmail(), txtCustomerEmail.getText(), Double.parseDouble(lblTotal.getText()))) {
+                            new Alert(Alert.AlertType.INFORMATION, "Email Sent!").show();
                         }
-                        cart=FXCollections.observableArrayList();
-                        orderDetails=new ArrayList<>();
-                        loadOrderTable();
-                        clearTxt();
-                        setOrderID();
+                    }
+                    cart = FXCollections.observableArrayList();
+                    orderDetails = new ArrayList<>();
+                    loadOrderTable();
+                    clearTxt();
+                    setOrderID();
 
 
-
-                  //  }
-               // }
+                    //  }
+                    // }
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        }catch (NullPointerException e){
+            new Alert(Alert.AlertType.ERROR,"Oops!\n"+e);
         }
 
     }

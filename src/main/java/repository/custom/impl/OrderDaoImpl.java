@@ -39,16 +39,20 @@ public class OrderDaoImpl implements OrderDao {
     public boolean save(OrderEntity order) throws SQLException {
         System.out.println(order);
 
-        Connection connection= DBConnection.getInstance().getConnection();
+        //Connection connection= DBConnection.getInstance().getConnection();
         Session session=HibernateUtil.getSession();
         session.getTransaction().begin();
         session.persist(order);
 
-        if((orderDetailDao.save(order.getOrderDetails()))&&(productDao.updateStock(order.getOrderDetails()))){
-            session.getTransaction().commit();
-            session.close();
-            return true;
+        if((orderDetailDao.save(order.getOrderDetails()))){
+            if(productDao.updateStock(order.getOrderDetails())){
+                session.getTransaction().commit();
+                session.close();
+                return true;
+            }
         }
+
+
         session.getTransaction().rollback();
         return false;
 //
@@ -159,33 +163,46 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public boolean delete(String id) {
-        String SQL="Delete From Orders WHERE OrderID='"+id+"'";
-        try {
-            return CrudUtil.execute(SQL);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        Session session=HibernateUtil.getSession();
+        session.getTransaction().begin();
+        session.remove(search(id));
+        session.getTransaction().commit();
+        session.close();
+        return true;
+//        String SQL="Delete From Orders WHERE OrderID='"+id+"'";
+//        try {
+//            return CrudUtil.execute(SQL);
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 
 
     @Override
     public Order search(String id, String customerID) {
-        String SQL="Select * From Orders WHERE OrderID='"+id+"' and CustomerID='"+customerID+"'";
 
-        try {
-            ResultSet rst=CrudUtil.execute(SQL);
-            while (rst.next()){
-                List<OrderDetail> orderDetails=new ArrayList<>();
-                for (OrderDetailEntity orderDetailEntity:orderDetailDao.findAll(id)){
-                   if(orderDetailEntity!=null) {
-                       orderDetails.add(new ModelMapper().map(orderDetailEntity,OrderDetail.class));
-                   }
-                }
-                return new Order(rst.getString(1),rst.getString(2),rst.getString(3),LocalDate.parse(rst.getString(4)),rst.getString(5),orderDetails);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+//        Session session=HibernateUtil.getSession();
+//        session.getTransaction().begin();
+//        String hql="SELECT od from orderentity WHERE od.OrderID=:newID and CustomerID=:custID";
+//        OrderEntity orderEntity=session.createQuery(hql).setParameter("newID",id).setParameter("CustID",customerID).getFirstResult();
+//        session.getTransaction().commit();
+
+//        String SQL="Select * From Orders WHERE OrderID='"+id+"' and CustomerID='"+customerID+"'";
+//
+//        try {
+//            ResultSet rst=CrudUtil.execute(SQL);
+//            while (rst.next()){
+//                List<OrderDetail> orderDetails=new ArrayList<>();
+//                for (OrderDetailEntity orderDetailEntity:orderDetailDao.findAll(id)){
+//                   if(orderDetailEntity!=null) {
+//                       orderDetails.add(new ModelMapper().map(orderDetailEntity,OrderDetail.class));
+//                   }
+//                }
+//                return new Order(rst.getString(1),rst.getString(2),rst.getString(3),LocalDate.parse(rst.getString(4)),rst.getString(5),orderDetails);
+//            }
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
         return null;
     }
 }

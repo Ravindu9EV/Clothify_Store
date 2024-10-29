@@ -117,9 +117,12 @@ public class ProductDaoImpl implements ProductDao {
     @Override
     public boolean updateStock(List<OrderDetailEntity> orderDetailEntities) {
         for(OrderDetailEntity orderDetail:orderDetailEntities){
-            return updateStock(orderDetail);
+
+            if(!updateStock(orderDetail)){
+                return false;
+            };
         }
-        return false;
+        return true;
     }
 
     @Override
@@ -131,6 +134,7 @@ public class ProductDaoImpl implements ProductDao {
                         .setParameter("newID",orderDetailEntity.getProductID()).executeUpdate();
 
         session.getTransaction().commit();
+
         session.close();
         return true;
 //        String SQL="UPDATE Product SET quantity=quantity-? WHERE id='"+orderDetailEntity.getProductID()+"'";
@@ -142,5 +146,6 @@ public class ProductDaoImpl implements ProductDao {
 //            System.out.println("productDao->updateStock( orderDetailEntity)"+e);
 //            throw new RuntimeException(e);
 //        }
+
     }
 }

@@ -32,14 +32,18 @@ public class OrderDetailDaoImpl implements OrderDetailDao {
 
         @Override
     public boolean save(OrderDetailEntity entity) {
-
+        int count=0;
         if (entity!=null){
 
                 Session session=HibernateUtil.getSession();
                 session.getTransaction().begin();
                 session.persist(entity);
                 session.getTransaction().commit();
+
                 session.close();
+
+
+
                 return true;
 
         }
