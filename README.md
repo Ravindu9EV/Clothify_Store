@@ -1,6 +1,6 @@
 # Clothify Store - POS System
 
-![Java](https://img.shields.io/badge/Java-17+-orange)
+![Java](https://img.shields.io/badge/Java-11-orange)
 ![JavaFX](https://img.shields.io/badge/JavaFX-19-blue)
 ![MySQL](https://img.shields.io/badge/MySQL-8.0-lightblue)
 ![Hibernate](https://img.shields.io/badge/Hibernate-6.0-blueviolet)
@@ -50,7 +50,7 @@ This JavaFX-based application helps manage a clothing store's **inventory, sales
 
 ## 🛠 Technologies Used
 - **Frontend**: JavaFX, JFoenix (Material Design)
-- **Backend**: Java 17+
+- **Backend**: Java 11
 - **Database**: MySQL 8.0
 - **ORM**: Hibernate 6.0
 - **Build Tool**: Maven
