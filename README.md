@@ -62,7 +62,7 @@ This JavaFX-based application helps manage a clothing store's **inventory, sales
 ## 🚀 Installation Guide
 
 ### Prerequisites
-- Java JDK 17+
+- Java JDK 11
 - MySQL Server 8.0+
 - Maven 3.8+
 
